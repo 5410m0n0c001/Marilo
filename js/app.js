@@ -1,9 +1,15 @@
+// 1. Immediate scroll reset to prevent jumps due to browser memory restoration or hashes
+window.scrollTo(0, 0);
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+if (window.location.hash) {
+  history.replaceState("", document.title, window.location.pathname + window.location.search);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Enforce page scroll to top on reload/load
+  // Re-verify scroll on DOM load
   window.scrollTo(0, 0);
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
 
   // Hide preloader once page is loaded
   const preloader = document.getElementById('preloader');
@@ -15,14 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // Parallax Scroll Effect on Hero Cover Image
+  // Parallax Scroll Effect using GPU transform variables
   // ==========================================
   const headerSection = document.querySelector('.header');
   window.addEventListener('scroll', () => {
     let scrollVal = window.scrollY;
     if (headerSection) {
-      // Shift the background position vertically at a slower rate
-      headerSection.style.backgroundPositionY = `calc(50% + ${scrollVal * 0.4}px)`;
+      headerSection.style.setProperty('--parallax-offset', `${scrollVal * 0.35}px`);
     }
   });
 
@@ -146,16 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (sectionId === 'financial-section') {
       destroyBudgetChart();
       destroyProjectionChart();
-    }
-  }
-
-  if (window.location.hash) {
-    const targetSection = document.querySelector(window.location.hash);
-    if (targetSection && targetSection.classList.contains('section-wrapper')) {
-      setTimeout(() => {
-        openPanel(targetSection);
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
     }
   }
 
@@ -377,7 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const barFamiliarVal = document.getElementById('barFamiliarVal');
 
     if (barLabor && barCivil && barFamiliar) {
-      // Force initial zero state for transition to trigger
       barLabor.style.width = '0%';
       barCivil.style.width = '0%';
       barFamiliar.style.width = '0%';
