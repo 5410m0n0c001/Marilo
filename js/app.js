@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        scrollObserver.unobserve(entry.target); // Trigger only once
+        scrollObserver.unobserve(entry.target);
       }
     });
   }, {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px' // Trigger slightly before entering viewport
+    rootMargin: '0px 0px -50px 0px'
   });
 
   scrollElements.forEach(el => scrollObserver.observe(el));
@@ -169,20 +169,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = chatInput.value.trim();
     if (!text) return;
 
-    // Add user message to UI
     appendMessage(text, 'user-msg');
     chatInput.value = '';
     questionCount++;
     
-    // Update credit counter
     const remaining = maxQuestions - questionCount;
     chatCredits.textContent = remaining;
 
-    // Disable input while generating response
     chatInput.disabled = true;
     chatSendBtn.disabled = true;
 
-    // Simulate bot thinking
     setTimeout(() => {
       if (questionCount === 1) {
         appendMessage(responses[0], 'bot-msg');
@@ -197,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (questionCount === 3) {
         appendMessage(responses[2], 'bot-msg');
         
-        // Show credits exhausted pop-up redirect after a short delay
         setTimeout(() => {
           triggerCreditsExhausted();
         }, 1500);
@@ -209,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgDiv = document.createElement('div');
     msgDiv.className = `chat-bubble ${className} anim-popup`;
     
-    // Handle basic markdown bold for simulated bot titles
     const formattedText = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     msgDiv.innerHTML = formattedText;
     
@@ -218,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function triggerCreditsExhausted() {
-    // Replace chat area or display overlay
     const overlay = document.createElement('div');
     overlay.className = 'chat-exhausted-overlay anim-popup';
     overlay.style.cssText = `
@@ -247,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </p>
       <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px;">
         <a href="#store-section" class="cta-button" style="padding: 10px; font-size: 0.8rem; border: none; text-align: center; width: 100%; background: var(--color-lime); color: var(--color-charcoal);" onclick="document.querySelector('#store-section').scrollIntoView({behavior: 'smooth'});">
-          Contratar Consulta ($400 MXN)
+          Contratar Consulta ($400 MXN + IVA)
         </a>
         <button id="resetChatBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #ffffff; padding: 8px; border-radius: var(--radius-sm); font-size: 0.8rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='#ffffff'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)'">
           Reiniciar Simulación
@@ -257,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     chatWindow.appendChild(overlay);
     
-    // Add event to restart simulation
     document.getElementById('resetChatBtn').addEventListener('click', () => {
       overlay.remove();
       questionCount = 0;
@@ -274,6 +266,60 @@ document.addEventListener('DOMContentLoaded', () => {
       chatSendBtn.disabled = false;
       chatInput.focus();
     });
+  }
+
+  // ==========================================
+  // Social Media Report Simulator Toggle
+  // ==========================================
+  const reportMonthBtn1 = document.getElementById('reportMonthBtn1');
+  const reportMonthBtn2 = document.getElementById('reportMonthBtn2');
+  
+  if (reportMonthBtn1 && reportMonthBtn2) {
+    reportMonthBtn1.addEventListener('click', () => {
+      updateReportSimulator('Mes 1');
+      reportMonthBtn1.classList.add('active');
+      reportMonthBtn2.classList.remove('active');
+    });
+
+    reportMonthBtn2.addEventListener('click', () => {
+      updateReportSimulator('Mes 2');
+      reportMonthBtn2.classList.add('active');
+      reportMonthBtn1.classList.remove('active');
+    });
+  }
+
+  function updateReportSimulator(month) {
+    const isM2 = month === 'Mes 2';
+    
+    // Select elements and update values
+    document.getElementById('repImpressions').textContent = isM2 ? '48,500' : '22,400';
+    document.getElementById('repImpressionsDelta').textContent = isM2 ? '+116%' : '+0%';
+    
+    document.getElementById('repCpl').textContent = isM2 ? '$48 MXN' : '$75 MXN';
+    document.getElementById('repCplDelta').className = isM2 ? 'delta down' : 'delta';
+    document.getElementById('repCplDelta').textContent = isM2 ? '-36%' : '0%';
+    
+    document.getElementById('repLeads').textContent = isM2 ? '38' : '12';
+    document.getElementById('repLeadsDelta').textContent = isM2 ? '+216%' : '+0%';
+
+    // Update table rows
+    document.getElementById('repGoogleConvs').textContent = isM2 ? '15' : '6';
+    document.getElementById('repGoogleCpl').textContent = isM2 ? '$58' : '$72';
+    
+    document.getElementById('repMetaConvs').textContent = isM2 ? '18' : '5';
+    document.getElementById('repMetaCpl').textContent = isM2 ? '$42' : '$68';
+
+    document.getElementById('repTikTokConvs').textContent = isM2 ? '5' : '1';
+
+    // Update progress bars
+    document.getElementById('barLabor').style.width = isM2 ? '45%' : '30%';
+    document.getElementById('barLaborVal').textContent = isM2 ? '17' : '4';
+    
+    document.getElementById('barCivil').style.width = isM2 ? '30%' : '40%';
+    document.getElementById('barCivilVal').textContent = isM2 ? '11' : '5';
+
+    document.getElementById('barFamiliar').style.width = isM2 ? '25%' : '30%';
+    document.getElementById('barFamiliarVal').textContent = isM2 ? '10' : '3';
   }
 
   // ==========================================
@@ -359,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
             label: 'Ingreso Acumulado',
             data: cumulativeIncome,
             borderColor: '#3b82f6', 
-            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+            backgroundColor: 'rgba(59, 130, 246, 0.03)',
             fill: true,
             tension: 0.3,
             borderWidth: 2
@@ -377,14 +423,27 @@ document.addEventListener('DOMContentLoaded', () => {
             label: 'Flujo Neto Acumulado (ROI)',
             data: cumulativeNet,
             borderColor: '#b5dc17', 
-            backgroundColor: 'rgba(181, 220, 23, 0.1)',
+            backgroundColor: 'rgba(181, 220, 23, 0.08)',
             fill: true,
             tension: 0.3,
-            borderWidth: 3
+            borderWidth: 3,
+            // Custom points styling to highlight the break-even at index 2 (Mes 3)
+            pointRadius: [3, 3, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            pointHoverRadius: [5, 5, 11, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+            pointBackgroundColor: [
+              '#231f20', '#231f20', '#b5dc17', '#231f20', '#231f20', '#231f20',
+              '#231f20', '#231f20', '#231f20', '#231f20', '#231f20', '#231f20'
+            ],
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2
           }
         ]
       },
       options: {
+        animation: {
+          duration: 2500,
+          easing: 'easeOutQuart'
+        },
         scales: {
           y: {
             grid: {
@@ -413,6 +472,9 @@ document.addEventListener('DOMContentLoaded', () => {
             callbacks: {
               label: function(context) {
                 let value = context.raw;
+                if (context.dataIndex === 2 && context.datasetIndex === 2) {
+                  return ` Break-even Point (Punto de Equilibrio): $${value.toLocaleString()} MXN`;
+                }
                 return ` ${context.dataset.label}: $${value.toLocaleString()} MXN`;
               }
             }
