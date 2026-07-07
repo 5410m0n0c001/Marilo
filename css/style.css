@@ -212,6 +212,29 @@ h1, h2, h3, h4, h5, h6 {
   padding: var(--space-md);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   border-left: 6px solid var(--color-lime);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-brand-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  background: url('../assets/images/init_idea_logo.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.08; /* 8% opacity watermark */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-brand-card * {
+  position: relative;
+  z-index: 2;
 }
 
 .hero-brand-card h3 {
