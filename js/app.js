@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. Enforce page scroll to top on reload/load
+  window.scrollTo(0, 0);
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
   // Hide preloader once page is loaded
   const preloader = document.getElementById('preloader');
   if (preloader) {
@@ -7,6 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
       preloader.style.visibility = 'hidden';
     }, 400);
   }
+
+  // ==========================================
+  // Parallax Scroll Effect on Hero Cover Image
+  // ==========================================
+  const headerSection = document.querySelector('.header');
+  window.addEventListener('scroll', () => {
+    let scrollVal = window.scrollY;
+    if (headerSection) {
+      // Shift the background position vertically at a slower rate
+      headerSection.style.backgroundPositionY = `calc(50% + ${scrollVal * 0.4}px)`;
+    }
+  });
 
   // ==========================================
   // Scroll Reveal Observer (AOS style)
@@ -76,9 +94,29 @@ document.addEventListener('DOMContentLoaded', () => {
       content.removeEventListener('transitionend', handler);
     }, { once: true });
 
+    // A. Trigger staggered animation for items inside the panel
+    const staggerItems = content.querySelectorAll('.stagger-item');
+    staggerItems.forEach((item, index) => {
+      setTimeout(() => {
+        if (section.classList.contains('open')) {
+          item.classList.add('active');
+        }
+      }, index * 80 + 100);
+    });
+
+    // B. Trigger specific chart setups upon opening sections
+    const sectionId = section.getAttribute('id');
     setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 100);
+      window.dispatchEvent(new Event('resize')); // Fix chart drawing constraints
+      
+      if (sectionId === 'ads-section') {
+        initRadarChart();
+        animateReportProgressBars('Mes 1');
+      } else if (sectionId === 'financial-section') {
+        initBudgetChart();
+        initProjectionChart();
+      }
+    }, 150);
   }
 
   function closePanel(section) {
@@ -93,6 +131,22 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.setAttribute('aria-expanded', 'false');
     content.style.maxHeight = '0px';
     content.style.opacity = '0';
+
+    // Reset staggered anim items
+    const staggerItems = content.querySelectorAll('.stagger-item');
+    staggerItems.forEach(item => {
+      item.classList.remove('active');
+    });
+
+    // Destroy charts when collapsed to ensure fresh animation next open
+    const sectionId = section.getAttribute('id');
+    if (sectionId === 'ads-section') {
+      destroyRadarChart();
+      resetReportProgressBars();
+    } else if (sectionId === 'financial-section') {
+      destroyBudgetChart();
+      destroyProjectionChart();
+    }
   }
 
   if (window.location.hash) {
@@ -113,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const sectionId = btn.getAttribute('data-section');
-      const shareTitle = btn.getAttribute('data-title') || 'Propuesta Mariló';
       const shareUrl = `${window.location.origin}${window.location.pathname}#${sectionId}`;
 
       navigator.clipboard.writeText(shareUrl)
@@ -291,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateReportSimulator(month) {
     const isM2 = month === 'Mes 2';
     
-    // Select elements and update values
     document.getElementById('repImpressions').textContent = isM2 ? '48,500' : '22,400';
     document.getElementById('repImpressionsDelta').textContent = isM2 ? '+116%' : '+0%';
     
@@ -302,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('repLeads').textContent = isM2 ? '38' : '12';
     document.getElementById('repLeadsDelta').textContent = isM2 ? '+216%' : '+0%';
 
-    // Update table rows
     document.getElementById('repGoogleConvs').textContent = isM2 ? '15' : '6';
     document.getElementById('repGoogleCpl').textContent = isM2 ? '$58' : '$72';
     
@@ -311,29 +362,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('repTikTokConvs').textContent = isM2 ? '5' : '1';
 
-    // Update progress bars
-    document.getElementById('barLabor').style.width = isM2 ? '45%' : '30%';
-    document.getElementById('barLaborVal').textContent = isM2 ? '17' : '4';
-    
-    document.getElementById('barCivil').style.width = isM2 ? '30%' : '40%';
-    document.getElementById('barCivilVal').textContent = isM2 ? '11' : '5';
+    animateReportProgressBars(month);
+  }
 
-    document.getElementById('barFamiliar').style.width = isM2 ? '25%' : '30%';
-    document.getElementById('barFamiliarVal').textContent = isM2 ? '10' : '3';
+  // Progress bars animation helper
+  function animateReportProgressBars(month) {
+    const isM2 = month === 'Mes 2';
+    
+    const barLabor = document.getElementById('barLabor');
+    const barLaborVal = document.getElementById('barLaborVal');
+    const barCivil = document.getElementById('barCivil');
+    const barCivilVal = document.getElementById('barCivilVal');
+    const barFamiliar = document.getElementById('barFamiliar');
+    const barFamiliarVal = document.getElementById('barFamiliarVal');
+
+    if (barLabor && barCivil && barFamiliar) {
+      // Force initial zero state for transition to trigger
+      barLabor.style.width = '0%';
+      barCivil.style.width = '0%';
+      barFamiliar.style.width = '0%';
+      
+      setTimeout(() => {
+        barLabor.style.transition = 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        barCivil.style.transition = 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+        barFamiliar.style.transition = 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+
+        barLabor.style.width = isM2 ? '45%' : '30%';
+        barLaborVal.textContent = isM2 ? '17' : '4';
+        
+        barCivil.style.width = isM2 ? '30%' : '40%';
+        barCivilVal.textContent = isM2 ? '11' : '5';
+
+        barFamiliar.style.width = isM2 ? '25%' : '30%';
+        barFamiliarVal.textContent = isM2 ? '10' : '3';
+      }, 50);
+    }
+  }
+
+  function resetReportProgressBars() {
+    const barLabor = document.getElementById('barLabor');
+    const barCivil = document.getElementById('barCivil');
+    const barFamiliar = document.getElementById('barFamiliar');
+    if (barLabor && barCivil && barFamiliar) {
+      barLabor.style.transition = 'none';
+      barCivil.style.transition = 'none';
+      barFamiliar.style.transition = 'none';
+      barLabor.style.width = '0%';
+      barCivil.style.width = '0%';
+      barFamiliar.style.width = '0%';
+    }
   }
 
   // ==========================================
-  // Chart.js - Data Visualizations (HLC Style)
+  // Chart.js Manager (Deferred Animation Setup)
   // ==========================================
+  let budgetChartInstance = null;
+  let projectionChartInstance = null;
+  let radarChartInstance = null;
 
   Chart.defaults.color = '#4b5563'; 
   Chart.defaults.font.family = "'Inter', sans-serif";
   Chart.defaults.responsive = true;
   Chart.defaults.maintainAspectRatio = false;
 
-  const ctxBudget = document.getElementById('budgetChart')?.getContext('2d');
-  if (ctxBudget) {
-    new Chart(ctxBudget, {
+  // 1. Budget Doughnut Chart
+  function initBudgetChart() {
+    destroyBudgetChart();
+    const ctx = document.getElementById('budgetChart')?.getContext('2d');
+    if (!ctx) return;
+
+    budgetChartInstance = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: [
@@ -353,6 +451,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }]
       },
       options: {
+        animation: {
+          animateRotate: true,
+          animateScale: true,
+          duration: 2000,
+          easing: 'easeOutQuart'
+        },
         plugins: {
           legend: {
             position: 'bottom',
@@ -375,8 +479,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const ctxProjection = document.getElementById('projectionChart')?.getContext('2d');
-  if (ctxProjection) {
+  function destroyBudgetChart() {
+    if (budgetChartInstance) {
+      budgetChartInstance.destroy();
+      budgetChartInstance = null;
+    }
+  }
+
+  // 2. Financial Line Chart (With highlighted Break-even Node at Mes 3)
+  function initProjectionChart() {
+    destroyProjectionChart();
+    const ctx = document.getElementById('projectionChart')?.getContext('2d');
+    if (!ctx) return;
+
     const labels = ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'];
     const volumes = [10, 18, 28, 42, 58, 75, 90, 105, 120, 135, 145, 155];
     const initialInvestment = 38000;
@@ -396,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cumulativeNet.push(cumulativeIncome[i] - cumulativeInvestment[i]);
     }
 
-    new Chart(ctxProjection, {
+    projectionChartInstance = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -427,7 +542,6 @@ document.addEventListener('DOMContentLoaded', () => {
             fill: true,
             tension: 0.3,
             borderWidth: 3,
-            // Custom points styling to highlight the break-even at index 2 (Mes 3)
             pointRadius: [3, 3, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3],
             pointHoverRadius: [5, 5, 11, 5, 5, 5, 5, 5, 5, 5, 5, 5],
             pointBackgroundColor: [
@@ -484,9 +598,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const ctxChannels = document.getElementById('channelsChart')?.getContext('2d');
-  if (ctxChannels) {
-    new Chart(ctxChannels, {
+  function destroyProjectionChart() {
+    if (projectionChartInstance) {
+      projectionChartInstance.destroy();
+      projectionChartInstance = null;
+    }
+  }
+
+  // 3. Radar Chart (Marketing Channels)
+  function initRadarChart() {
+    destroyRadarChart();
+    const ctx = document.getElementById('channelsChart')?.getContext('2d');
+    if (!ctx) return;
+
+    radarChartInstance = new Chart(ctx, {
       type: 'radar',
       data: {
         labels: ['Credibilidad', 'Volumen de Leads', 'Costo de Adquisición', 'Interacción', 'Segmentación Legal'],
@@ -515,6 +640,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
       },
       options: {
+        animation: {
+          duration: 2000,
+          easing: 'easeOutQuart'
+        },
         scales: {
           r: {
             angleLines: {
@@ -550,5 +679,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  }
+
+  function destroyRadarChart() {
+    if (radarChartInstance) {
+      radarChartInstance.destroy();
+      radarChartInstance = null;
+    }
   }
 });

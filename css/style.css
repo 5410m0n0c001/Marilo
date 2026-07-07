@@ -58,6 +58,7 @@
 html {
   font-size: var(--font-size-base);
   scroll-behavior: smooth;
+  scroll-restoration: manual; /* Disable automatic scroll restoration to enforce top on reload */
 }
 
 body {
@@ -126,15 +127,18 @@ h1, h2, h3, h4, h5, h6 {
 .text-lime { color: var(--color-lime); }
 
 /* ==========================================
-   Header & Hero (hlc.com Split Style)
+   Header & Hero (hlc.com Parallax Cover)
    ========================================== */
 .header {
-  background: linear-gradient(rgba(35, 31, 32, 0.8), rgba(35, 31, 32, 0.85)), url('../assets/images/modern_law_office.jpg') no-repeat center center;
+  background: linear-gradient(rgba(35, 31, 32, 0.8), rgba(35, 31, 32, 0.85)), url('../assets/images/modern_law_office.jpg') no-repeat center 50%;
   background-size: cover;
+  background-attachment: scroll; /* Handled smoothly in JS for mobile & desktop */
   padding: var(--space-xl) 0;
   color: var(--color-white);
   border-bottom: 4px solid var(--color-lime);
   position: relative;
+  overflow: hidden;
+  transition: background-position 0.05s linear;
 }
 
 .header-content {
@@ -260,6 +264,33 @@ h1, h2, h3, h4, h5, h6 {
 
 .content-inner {
   padding: var(--space-md) 0 var(--space-lg) 0;
+}
+
+/* ==========================================
+   Stagger Reveal Animations (For inside accordions)
+   ========================================== */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.slide-left {
+  transform: translateX(-30px);
+}
+
+.stagger-item.slide-right {
+  transform: translateX(30px);
+}
+
+.stagger-item.pop-up {
+  transform: scale(0.95) translateY(10px);
+}
+
+.stagger-item.active {
+  opacity: 1;
+  transform: translate(0) scale(1);
 }
 
 /* ==========================================
@@ -441,6 +472,69 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-lime);
   border-color: var(--color-lime);
   color: var(--color-charcoal);
+}
+
+/* ==========================================
+   Sitemap Visual Tree Layout
+   ========================================== */
+.sitemap-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.sitemap-node {
+  background: var(--color-white);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.sitemap-node:hover {
+  border-color: var(--color-lime);
+  transform: translateX(4px);
+}
+
+.sitemap-node-header {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-charcoal);
+  border-bottom: 2px solid var(--color-lime);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sitemap-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.sitemap-module-card {
+  background: var(--color-light-bg);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.85rem;
+}
+
+.sitemap-module-card strong {
+  color: var(--color-charcoal);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sitemap-module-card span {
+  color: var(--color-text-muted);
 }
 
 /* ==========================================
