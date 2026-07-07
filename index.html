@@ -17,6 +17,24 @@
   
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Inline watermark override to prevent cache and path issues -->
+  <style>
+    .hero-brand-card::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 92% !important;
+      height: 92% !important;
+      background: url('assets/images/init_idea_logo.png') no-repeat center center !important;
+      background-size: contain !important;
+      opacity: 0.22 !important; /* 22% opacity watermark: visible but elegant */
+      z-index: 0 !important;
+      pointer-events: none !important;
+    }
+  </style>
 </head>
 <body class="anim-fade-in">
 
