@@ -568,6 +568,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================
+   Animated SVG Funnel Paths
+   ========================================== */
+@keyframes drawStroke {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(181, 220, 23, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(181, 220, 23, 0.8));
+  }
+  100% {
+    filter: drop-shadow(0 0 2px rgba(181, 220, 23, 0.4));
+  }
+}
+
+.funnel-path-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawStroke 2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             pulseGlow 3s infinite ease-in-out;
+}
+
+/* ==========================================
    Footer
    ========================================== */
 .footer {

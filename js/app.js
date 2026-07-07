@@ -85,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function openPanel(section) {
     const btn = section.querySelector('.collapsible-header');
     const content = section.querySelector('.collapsible-content');
+    const sectionId = section.getAttribute('id');
+    
     section.classList.add('open');
     btn.setAttribute('aria-expanded', 'true');
     
@@ -95,11 +97,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (section.classList.contains('open')) {
         content.style.maxHeight = 'none';
         content.style.overflow = 'visible';
+        
+        // Trigger specific chart and progress bar setups ONLY when panel is 100% expanded
+        window.dispatchEvent(new Event('resize')); 
+        
+        if (sectionId === 'ads-section') {
+          initRadarChart();
+          animateReportProgressBars('Mes 1');
+        } else if (sectionId === 'financial-section') {
+          initBudgetChart();
+          initProjectionChart();
+        }
       }
       content.removeEventListener('transitionend', handler);
     }, { once: true });
 
-    // A. Trigger staggered animation for items inside the panel
+    // Trigger staggered animation for items inside the panel
     const staggerItems = content.querySelectorAll('.stagger-item');
     staggerItems.forEach((item, index) => {
       setTimeout(() => {
@@ -108,25 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, index * 80 + 100);
     });
-
-    // B. Trigger specific chart setups upon opening sections
-    const sectionId = section.getAttribute('id');
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize')); // Fix chart drawing constraints
-      
-      if (sectionId === 'ads-section') {
-        initRadarChart();
-        animateReportProgressBars('Mes 1');
-      } else if (sectionId === 'financial-section') {
-        initBudgetChart();
-        initProjectionChart();
-      }
-    }, 150);
   }
 
   function closePanel(section) {
     const btn = section.querySelector('.collapsible-header');
     const content = section.querySelector('.collapsible-content');
+    const sectionId = section.getAttribute('id');
     
     content.style.overflow = 'hidden';
     content.style.maxHeight = content.scrollHeight + 'px';
@@ -144,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Destroy charts when collapsed to ensure fresh animation next open
-    const sectionId = section.getAttribute('id');
     if (sectionId === 'ads-section') {
       destroyRadarChart();
       resetReportProgressBars();
@@ -288,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </p>
       <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px;">
         <a href="#store-section" class="cta-button" style="padding: 10px; font-size: 0.8rem; border: none; text-align: center; width: 100%; background: var(--color-lime); color: var(--color-charcoal);" onclick="document.querySelector('#store-section').scrollIntoView({behavior: 'smooth'});">
-          Contratar Consulta ($400 MXN + IVA)
+          Contratar Consulta ($464 MXN IVA Inc.)
         </a>
         <button id="resetChatBtn" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #ffffff; padding: 8px; border-radius: var(--radius-sm); font-size: 0.8rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.borderColor='#ffffff'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)'">
           Reiniciar Simulación
@@ -419,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Chart.defaults.responsive = true;
   Chart.defaults.maintainAspectRatio = false;
 
-  // 1. Budget Doughnut Chart
+  // 1. Budget Doughnut Chart ($40k Budget Splits)
   function initBudgetChart() {
     destroyBudgetChart();
     const ctx = document.getElementById('budgetChart')?.getContext('2d');
@@ -430,11 +429,11 @@ document.addEventListener('DOMContentLoaded', () => {
       data: {
         labels: [
           'Branding Personal (Fase 1)',
-          'Setup Ecosistema, Google & HubSpot (Fase 2)',
+          'Setup Ecosistema, Google, Spotify & HubSpot (Fase 2)',
           'Desarrollo Web WordPress Divi & Bot n8n (Fase 3)'
         ],
         datasets: [{
-          data: [12000, 8000, 18000],
+          data: [12000, 10000, 18000],
           backgroundColor: [
             'rgba(181, 220, 23, 0.85)',  
             'rgba(35, 31, 32, 0.8)',     
@@ -481,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Financial Line Chart (With highlighted Break-even Node at Mes 3)
+  // Initial Capital: $40,000. Operating Cost: $14,200 ($10k Content + $3k Ads + $1.2k Tech)
   function initProjectionChart() {
     destroyProjectionChart();
     const ctx = document.getElementById('projectionChart')?.getContext('2d');
@@ -488,8 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const labels = ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'];
     const volumes = [10, 18, 28, 42, 58, 75, 90, 105, 120, 135, 145, 155];
-    const initialInvestment = 38000;
-    const monthlyCost = 12200;
+    const initialInvestment = 40000;
+    const monthlyCost = 14200;
     const avgPrice = 500;
 
     let cumulativeInvestment = [initialInvestment + monthlyCost];
