@@ -107,8 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
           
           setTimeout(() => {
             btn.innerHTML = originalText;
-            btn.style.borderColor = 'var(--color-gold)';
-            btn.style.color = 'var(--color-gold)';
+            btn.style.borderColor = 'var(--color-charcoal)';
+            btn.style.color = 'var(--color-charcoal)';
           }, 2000);
         })
         .catch(err => {
@@ -118,15 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // Chart.js - Data Visualizations
+  // Chart.js - Data Visualizations (HLC Style)
   // ==========================================
 
-  Chart.defaults.color = '#94a3b8'; // text-muted
+  // Chart Global Settings for Light White Cards and Charcoal Texts
+  Chart.defaults.color = '#4b5563'; // text-muted (slate-600)
   Chart.defaults.font.family = "'Inter', sans-serif";
   Chart.defaults.responsive = true;
   Chart.defaults.maintainAspectRatio = false;
 
-  // 1. Budget Allocation Chart (Pie Chart) - Updated
+  // 1. Budget Allocation Chart (Pie Chart)
   const ctxBudget = document.getElementById('budgetChart')?.getContext('2d');
   if (ctxBudget) {
     new Chart(ctxBudget, {
@@ -140,11 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
         datasets: [{
           data: [12000, 8000, 18000],
           backgroundColor: [
-            'rgba(197, 160, 89, 0.85)', // Gold
-            'rgba(59, 130, 246, 0.75)',  // Blue
-            'rgba(139, 92, 246, 0.75)'   // Violet
+            'rgba(181, 220, 23, 0.85)',  // Citric Lime Green
+            'rgba(35, 31, 32, 0.8)',     // Dark Charcoal
+            'rgba(59, 130, 246, 0.75)'   // Corporate Blue
           ],
-          borderColor: '#111827',
+          borderColor: '#ffffff',
           borderWidth: 2
         }]
       },
@@ -154,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             position: 'bottom',
             labels: {
               padding: 15,
-              color: '#f8fafc'
+              color: '#231f20'
             }
           },
           tooltip: {
@@ -171,16 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 2. Financial Projection (Line Chart) - Updated
+  // 2. Financial Projection (Line Chart)
   const ctxProjection = document.getElementById('projectionChart')?.getContext('2d');
   if (ctxProjection) {
     const labels = ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'];
     
-    // Average Package Price: $500 MXN.
-    // Adjusted volume representing steady growth:
+    // Average Ticket Price: $500 MXN
     const volumes = [10, 18, 28, 42, 58, 75, 90, 105, 120, 135, 145, 155];
     
-    // Setup Investment: $38,000 (Branding $12k + Setup $8k + Web $18k)
+    // Setup Investment: $38,000
     // Monthly Operating Cost: Ads ($3,000) + Content ($8,000) + Google/SiteGround/HubSpot ($1,200) = $12,200
     const initialInvestment = 38000;
     const monthlyCost = 12200;
@@ -207,8 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Ingreso Acumulado',
             data: cumulativeIncome,
-            borderColor: '#10b981', // Green
-            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+            borderColor: '#3b82f6', // Corporate Blue
+            backgroundColor: 'rgba(59, 130, 246, 0.05)',
             fill: true,
             tension: 0.3,
             borderWidth: 2
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Inversión Total Acumulada',
             data: cumulativeInvestment,
-            borderColor: '#ef4444', // Red
+            borderColor: '#231f20', // Dark Charcoal
             backgroundColor: 'transparent',
             borderDash: [5, 5],
             tension: 0.1,
@@ -225,8 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Flujo Neto Acumulado (ROI)',
             data: cumulativeNet,
-            borderColor: '#c5a059', // Gold
-            backgroundColor: 'rgba(197, 160, 89, 0.1)',
+            borderColor: '#b5dc17', // Citric Lime Green
+            backgroundColor: 'rgba(181, 220, 23, 0.1)',
             fill: true,
             tension: 0.3,
             borderWidth: 3
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scales: {
           y: {
             grid: {
-              color: 'rgba(255, 255, 255, 0.05)'
+              color: 'rgba(35, 31, 32, 0.05)'
             },
             ticks: {
               callback: function(value) {
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           x: {
             grid: {
-              color: 'rgba(255, 255, 255, 0.05)'
+              color: 'rgba(35, 31, 32, 0.05)'
             }
           }
         },
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
           legend: {
             position: 'top',
             labels: {
-              color: '#f8fafc'
+              color: '#231f20'
             }
           },
           tooltip: {
@@ -282,22 +282,22 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: 'Google Ads (Búsqueda)',
             data: [95, 90, 75, 40, 95], 
-            borderColor: '#3b82f6',
-            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: '#3b82f6', // Corporate Blue
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
             borderWidth: 2
           },
           {
             label: 'Meta Ads (FB/IG)',
             data: [80, 95, 85, 80, 85], 
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+            borderColor: '#b5dc17', // Citric Lime
+            backgroundColor: 'rgba(181, 220, 23, 0.1)',
             borderWidth: 2
           },
           {
             label: 'LinkedIn (Profesional)',
             data: [95, 50, 40, 60, 90], 
-            borderColor: '#c5a059',
-            backgroundColor: 'rgba(197, 160, 89, 0.2)',
+            borderColor: '#231f20', // Dark Charcoal
+            backgroundColor: 'rgba(35, 31, 32, 0.1)',
             borderWidth: 2
           }
         ]
@@ -306,20 +306,21 @@ document.addEventListener('DOMContentLoaded', () => {
         scales: {
           r: {
             angleLines: {
-              color: 'rgba(255, 255, 255, 0.08)'
+              color: 'rgba(35, 31, 32, 0.08)'
             },
             grid: {
-              color: 'rgba(255, 255, 255, 0.08)'
+              color: 'rgba(35, 31, 32, 0.08)'
             },
             pointLabels: {
-              color: '#f8fafc',
+              color: '#231f20',
               font: {
-                size: 11
+                size: 11,
+                weight: 'bold'
               }
             },
             ticks: {
               backdropColor: 'transparent',
-              color: '#94a3b8',
+              color: '#4b5563',
               showLabelBackdrop: false
             },
             suggestedMin: 20,
@@ -330,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
           legend: {
             position: 'bottom',
             labels: {
-              color: '#f8fafc',
+              color: '#231f20',
               padding: 10
             }
           }

@@ -2,9 +2,9 @@
    Chart.js Custom Containers
    ========================================== */
 .chart-card {
-  background: rgba(17, 24, 39, 0.6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
   padding: var(--space-md);
   margin-top: var(--space-md);
   box-shadow: var(--shadow-premium);
@@ -19,7 +19,7 @@
 }
 
 /* ==========================================
-   Custom Channels Heatmap
+   Custom Channels Heatmap (HLC.com Accent Style)
    ========================================== */
 .heatmap-container {
   display: grid;
@@ -32,25 +32,27 @@
   padding: var(--space-md);
   text-align: center;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: var(--border-thin);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: var(--space-xs);
+  background: var(--color-white);
 }
 
 .heatmap-cell:hover {
   transform: scale(1.05);
-  box-shadow: var(--shadow-gold);
-  border-color: var(--color-gold);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-lime);
   z-index: 10;
 }
 
 .heatmap-cell h5 {
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-charcoal);
   margin-bottom: 2px;
 }
 
@@ -65,30 +67,30 @@
 
 /* Suitability levels gradient fills */
 .heat-low {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.15));
-  border-left: 3px solid var(--color-danger);
+  background: #fff5f5;
+  border-top: 3px solid var(--color-danger);
 }
 .heat-low span {
-  background: rgba(239, 68, 68, 0.2);
-  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.15);
+  color: #c53030;
 }
 
 .heat-medium {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(245, 158, 11, 0.15));
-  border-left: 3px solid var(--color-warning);
+  background: #fffdf5;
+  border-top: 3px solid var(--color-warning);
 }
 .heat-medium span {
-  background: rgba(245, 158, 11, 0.2);
-  color: #fde047;
+  background: rgba(245, 158, 11, 0.15);
+  color: #b7791f;
 }
 
 .heat-high {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.15));
-  border-left: 3px solid var(--color-success);
+  background: var(--color-lime-light);
+  border-top: 3px solid var(--color-lime);
 }
 .heat-high span {
-  background: rgba(16, 185, 129, 0.2);
-  color: #a7f3d0;
+  background: rgba(181, 220, 23, 0.3);
+  color: #4b6b00;
 }
 
 /* ==========================================
@@ -108,7 +110,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, var(--color-gold), rgba(197, 160, 89, 0.1));
+  background: linear-gradient(to bottom, var(--color-lime), rgba(181, 220, 23, 0.1));
 }
 
 .timeline-item {
@@ -123,30 +125,31 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--color-bg-deep);
-  border: 3px solid var(--color-gold);
+  background: var(--color-white);
+  border: 3px solid var(--color-lime);
   z-index: 10;
-  box-shadow: 0 0 10px var(--color-gold);
+  box-shadow: 0 0 10px rgba(181, 220, 23, 0.3);
   transition: all 0.3s ease;
 }
 
 .timeline-item:hover .timeline-dot {
-  background: var(--color-gold);
+  background: var(--color-lime);
   transform: scale(1.2);
 }
 
 .timeline-content {
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border: var(--border-thin);
   padding: var(--space-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-premium);
   transition: all 0.3s ease;
 }
 
 .timeline-content:hover {
-  border-color: var(--color-gold);
+  border-color: var(--color-lime);
   transform: translateX(5px);
+  box-shadow: var(--shadow-hover);
 }
 
 .timeline-header {
@@ -159,18 +162,19 @@
 }
 
 .timeline-title {
-  font-family: var(--font-title);
-  color: var(--color-gold);
+  font-family: var(--font-display);
+  color: var(--color-charcoal);
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .timeline-duration {
   font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-light-bg);
   padding: 2px 8px;
   border-radius: 4px;
   color: var(--color-text-muted);
+  font-weight: 600;
 }
 
 .timeline-body {

@@ -1,57 +1,53 @@
 /* ==========================================
-   CSS Variables & Design Tokens (Sober Legal Theme)
+   Design Tokens - Hogan Lovells Style (HLC.com)
    ========================================== */
 :root {
-  --color-bg-deep: #090d16;          /* Deepest Midnight Blue */
-  --color-bg-surface: #111827;       /* Surface / Section Card */
-  --color-bg-card: #1f2937;          /* Nested Card / Accordion Content */
-  --color-border: rgba(197, 160, 89, 0.15); /* Soft Gold Border */
-  --color-text-primary: #f8fafc;     /* Bright slate-100 */
-  --color-text-muted: #94a3b8;       /* Slate-400 for secondary copy */
-  
-  /* Gold/Champagne Gradients & Highlights */
-  --color-gold: #c5a059;
-  --color-gold-hover: #b08d47;
-  --color-gold-light: rgba(197, 160, 89, 0.1);
-  --grad-gold: linear-gradient(135deg, #d4af37, #c5a059, #aa8a4c);
-  --grad-dark: linear-gradient(180deg, #111827, #090d16);
+  /* Color Palette */
+  --color-charcoal: #231f20;          /* Primary Corporate Gray/Black */
+  --color-lime: #b5dc17;              /* Signature Citric Lime Green */
+  --color-lime-hover: #9ec400;        /* Slightly darker lime */
+  --color-lime-light: rgba(181, 220, 23, 0.08); /* 8% alpha lime */
+  --color-white: #ffffff;
+  --color-light-bg: #f8f9fa;          /* Cool Light Gray */
+  --color-light-gray: #e9ecef;        /* Border Gray */
+  --color-mid-gray: #ced4da;          /* Medium Gray */
+  --color-text-dark: #231f20;         /* Primary Text */
+  --color-text-muted: #6c757d;        /* Secondary Text */
 
-  /* Status Colors */
-  --color-success: #10b981;          /* Emerald-500 */
-  --color-warning: #f59e0b;          /* Amber-500 */
-  --color-danger: #ef4444;           /* Red-500 */
-  --color-info: #3b82f6;             /* Blue-500 */
-  
+  /* Gradients */
+  --grad-charcoal: linear-gradient(135deg, #2d292a, #1a1718);
+  --grad-lime: linear-gradient(135deg, #cbe850, #b5dc17);
+
   /* Fonts */
-  --font-title: 'Playfair Display', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  
-  /* Typography Scaling */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Typography Scale */
   --font-size-base: clamp(14px, 2vw, 16px);
-  --font-size-h1: clamp(1.8rem, 5vw, 2.8rem);
-  --font-size-h2: clamp(1.4rem, 4vw, 2rem);
-  --font-size-h3: clamp(1.15rem, 3vw, 1.4rem);
-  
-  /* Shadows */
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  --shadow-gold: 0 4px 20px rgba(197, 160, 89, 0.15);
-  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --font-size-h1: clamp(2rem, 6vw, 3.5rem);
+  --font-size-h2: clamp(1.5rem, 4vw, 2.2rem);
+  --font-size-h3: clamp(1.2rem, 3vw, 1.5rem);
 
   /* Spacing */
-  --space-xs: clamp(0.5rem, 1vw, 0.75rem);
-  --space-sm: clamp(0.75rem, 2vw, 1rem);
-  --space-md: clamp(1rem, 3vw, 1.5rem);
-  --space-lg: clamp(1.5rem, 4vw, 2rem);
-  --space-xl: clamp(2rem, 5vw, 3.5rem);
-  
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+
+  /* UI properties */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --border-thin: 1px solid var(--color-light-gray);
+  --border-thick: 2px solid var(--color-charcoal);
+  --border-lime: 1px solid var(--color-lime);
+  --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 15px 50px rgba(35, 31, 32, 0.08);
 }
 
 /* ==========================================
-   Reset and Base Styles
+   Base & Resets
    ========================================== */
 * {
   margin: 0;
@@ -66,64 +62,38 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-bg-deep);
-  color: var(--color-text-primary);
+  background-color: var(--color-light-bg);
+  color: var(--color-text-dark);
   line-height: 1.6;
-  overflow-x: hidden;
-  padding-bottom: var(--space-xl);
 }
 
 a {
-  color: var(--color-gold);
-  text-decoration: none;
-  transition: color 0.3s ease;
+  color: var(--color-charcoal);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-lime);
+  transition: all 0.3s ease;
 }
 
 a:hover {
-  color: var(--color-gold-hover);
+  color: var(--color-lime-hover);
+  border-color: var(--color-lime-hover);
 }
 
-ul, ol {
-  padding-left: var(--space-md);
-  margin-bottom: var(--space-sm);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-charcoal);
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
-li {
-  margin-bottom: 0.5rem;
-}
-
-/* ==========================================
-   Utility Classes & Layout
-   ========================================== */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--space-md);
-}
-
-.text-center { text-align: center; }
-.text-gold { color: var(--color-gold); }
-.text-success { color: var(--color-success); }
-.text-warning { color: var(--color-warning); }
-
-.flex { display: flex; }
-.grid { display: grid; }
-
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
-  margin: var(--space-xl) 0;
-}
-
-/* Preloader styles */
+/* Preloader */
 #preloader {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--color-bg-deep);
+  background: var(--color-charcoal);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,9 +104,9 @@ li {
 .preloader-spinner {
   width: 50px;
   height: 50px;
-  border: 3px solid rgba(197, 160, 89, 0.1);
+  border: 3px solid rgba(255, 255, 255, 0.05);
   border-radius: 50%;
-  border-top-color: var(--color-gold);
+  border-top-color: var(--color-lime);
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -144,142 +114,140 @@ li {
   to { transform: rotate(360deg); }
 }
 
-/* ==========================================
-   Header / Hero Section
-   ========================================== */
-.header {
-  background: var(--grad-dark);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-xl) 0 var(--space-lg) 0;
-  position: relative;
-  overflow: hidden;
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
 }
 
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, transparent 60%);
-  pointer-events: none;
+.text-muted { color: var(--color-text-muted); }
+.text-lime { color: var(--color-lime); }
+
+/* ==========================================
+   Header & Hero (hlc.com Split Style)
+   ========================================== */
+.header {
+  background: linear-gradient(rgba(35, 31, 32, 0.8), rgba(35, 31, 32, 0.85)), url('../assets/images/modern_law_office.jpg') no-repeat center center;
+  background-size: cover;
+  padding: var(--space-xl) 0;
+  color: var(--color-white);
+  border-bottom: 4px solid var(--color-lime);
+  position: relative;
 }
 
 .header-content {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
   align-items: center;
-  position: relative;
-  z-index: 10;
 }
 
-.header-logo-container {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-md);
-}
-
-.header-logo {
-  height: 80px;
-  width: auto;
-  border-radius: 50%;
-  border: 2px solid var(--color-gold);
-  padding: 4px;
-  background: rgba(9, 13, 22, 0.8);
-}
-
-.header-title-section {
-  text-align: center;
-  max-width: 800px;
+@media (max-width: 900px) {
+  .header-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
 
 .header-title-section h1 {
-  font-family: var(--font-title);
   font-size: var(--font-size-h1);
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  margin-bottom: var(--space-xs);
-  background: linear-gradient(to right, #ffffff, #e2e8f0, #c5a059);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-white);
+  line-height: 1.1;
+  margin-bottom: var(--space-sm);
+  font-weight: 800;
+}
+
+.header-title-section h1 span {
+  border-bottom: 5px solid var(--color-lime);
 }
 
 .header-title-section p {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: var(--color-text-muted);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #d1d5db;
   font-weight: 300;
   margin-bottom: var(--space-md);
 }
 
+/* Brand Card on Hero Right */
+.hero-brand-card {
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-left: 6px solid var(--color-lime);
+}
+
+.hero-brand-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-xs);
+}
+
+.hero-brand-card ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-xs) 0 0 0;
+}
+
+.hero-brand-card li {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+}
+
+.hero-brand-card li::before {
+  content: '→';
+  color: var(--color-lime-hover);
+  font-weight: bold;
+}
+
 /* ==========================================
-   Interactive Accordions / Collapsible Sections
+   Interactive Accordions (Thin elegant lists)
    ========================================== */
 .section-wrapper {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
+  border-bottom: var(--border-thin);
 }
 
 .collapsible-header {
   width: 100%;
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-bg-surface);
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding: var(--space-md) 0;
+  background: transparent;
+  color: var(--color-charcoal);
+  border: none;
   text-align: left;
-  font-family: var(--font-title);
   font-size: var(--font-size-h3);
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: var(--shadow-premium);
   transition: all 0.3s ease;
   user-select: none;
 }
 
 .collapsible-header:hover {
-  background: rgba(197, 160, 89, 0.05);
-  border-color: var(--color-gold);
-  box-shadow: var(--shadow-gold);
-}
-
-.collapsible-header-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
+  color: var(--color-lime-hover);
 }
 
 .collapsible-icon {
-  font-size: 1.5rem;
-  color: var(--color-gold);
+  font-size: 1.8rem;
+  color: var(--color-lime);
   transition: transform 0.3s ease;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.section-wrapper.open .collapsible-header {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-color: var(--color-gold);
 }
 
 .section-wrapper.open .collapsible-icon {
-  transform: rotate(180deg);
+  transform: rotate(45deg);
+  color: var(--color-charcoal);
 }
 
 .collapsible-content {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-top: none;
-  border-bottom-left-radius: var(--radius-md);
-  border-bottom-right-radius: var(--radius-md);
+  background: var(--color-white);
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -287,45 +255,57 @@ li {
 }
 
 .section-wrapper.open .collapsible-content {
-  max-height: none; /* Controlled dynamically in JS */
-  opacity: 1;
+  border-top: var(--border-thin);
 }
 
 .content-inner {
-  padding: var(--space-lg);
+  padding: var(--space-md) 0 var(--space-lg) 0;
 }
 
 /* ==========================================
-   Content Components & Cards
+   Content Components (hlc.com Grid Cards)
    ========================================== */
+.section-inner-title {
+  font-size: var(--font-size-h2);
+  margin-bottom: var(--space-md);
+  position: relative;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-charcoal);
+  display: inline-block;
+}
+
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--space-md);
   margin-top: var(--space-md);
 }
 
 .premium-card {
-  background: rgba(9, 13, 22, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-md);
+  background: var(--color-white);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
   padding: var(--space-md);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-premium);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .premium-card:hover {
   transform: translateY(-4px);
-  border-color: var(--color-border);
-  background: rgba(197, 160, 89, 0.02);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-lime);
 }
 
 .premium-card h4 {
-  font-family: var(--font-title);
-  color: var(--color-gold);
   font-size: 1.15rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding-bottom: 0.25rem;
+  color: var(--color-charcoal);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .premium-card p {
@@ -336,71 +316,45 @@ li {
 /* Alert Boxes */
 .premium-alert {
   padding: var(--space-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   margin: var(--space-md) 0;
-  border: 1px solid transparent;
   display: flex;
   gap: var(--space-sm);
   align-items: flex-start;
   font-size: 0.95rem;
+  border-left: 4px solid var(--color-charcoal);
 }
 
 .premium-alert.important {
-  background: rgba(245, 158, 11, 0.08);
-  border-color: rgba(245, 158, 11, 0.2);
-  color: #fef3c7;
+  background: #fffdf5;
+  border-color: var(--color-warning);
+  color: #7f5f07;
 }
 
 .premium-alert.info {
-  background: rgba(59, 130, 246, 0.08);
-  border-color: rgba(59, 130, 246, 0.2);
-  color: #eff6ff;
+  background: #f4f6fc;
+  border-color: var(--color-charcoal);
+  color: var(--color-charcoal);
 }
 
 .premium-alert.success {
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.2);
-  color: #ecfdf5;
+  background: var(--color-lime-light);
+  border-color: var(--color-lime);
+  color: #4b6b00;
 }
 
 .premium-alert-icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
-  margin-top: 2px;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
-/* Share Button */
-.share-section-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 1px solid var(--color-gold);
-  color: var(--color-gold);
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  cursor: pointer;
-  margin-top: var(--space-md);
-  transition: all 0.3s ease;
-}
-
-.share-section-btn:hover {
-  background: var(--color-gold);
-  color: var(--color-bg-deep);
-  box-shadow: var(--shadow-gold);
-}
-
-/* ==========================================
-   Responsive Tables
-   ========================================== */
+/* Responsive Tables */
 .table-responsive {
   width: 100%;
   overflow-x: auto;
   margin: var(--space-md) 0;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-premium);
 }
 
@@ -408,76 +362,104 @@ li {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  background: var(--color-bg-surface);
+  background: var(--color-white);
   font-size: 0.95rem;
 }
 
 .premium-table th,
 .premium-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 14px 20px;
+  border-bottom: var(--border-thin);
 }
 
 .premium-table th {
-  background: rgba(197, 160, 89, 0.1);
-  color: var(--color-gold);
-  font-family: var(--font-title);
-  font-weight: 600;
+  background: var(--color-charcoal);
+  color: var(--color-white);
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
 .premium-table tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--color-light-bg);
 }
 
 .premium-table tr.highlight-row {
-  background: rgba(197, 160, 89, 0.05);
+  background: var(--color-lime-light);
 }
 
 .premium-table tr.highlight-row td {
-  color: var(--color-gold);
-  font-weight: 600;
+  color: var(--color-charcoal);
+  font-weight: 700;
 }
 
-/* CTA Buttons */
+/* Buttons and Call to Action (Vibrant Lime) */
 .cta-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--grad-gold);
-  color: #000;
+  background: var(--color-lime);
+  color: var(--color-charcoal);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 12px 28px;
+  letter-spacing: 1px;
+  padding: 14px 32px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(181, 220, 23, 0.3);
+  font-size: 0.85rem;
+  border-bottom: none;
 }
 
 .cta-button:hover {
+  background: var(--color-charcoal);
+  color: var(--color-white);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
-  color: #000;
+  box-shadow: 0 6px 20px rgba(35, 31, 32, 0.25);
+}
+
+.share-section-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--color-charcoal);
+  color: var(--color-charcoal);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: var(--space-md);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--color-charcoal);
+}
+
+.share-section-btn:hover {
+  background: var(--color-lime);
+  border-color: var(--color-lime);
+  color: var(--color-charcoal);
 }
 
 /* ==========================================
-   Media Queries
+   Footer
    ========================================== */
-@media (max-width: 768px) {
-  .header {
-    padding: var(--space-lg) 0;
-  }
-  .collapsible-header {
-    padding: var(--space-sm) var(--space-md);
-  }
-  .content-inner {
-    padding: var(--space-md);
-  }
-  .premium-table th,
-  .premium-table td {
-    padding: 10px 12px;
-  }
+.footer {
+  background: var(--color-charcoal);
+  color: var(--color-white);
+  padding: var(--space-lg) 0;
+  margin-top: var(--space-xl);
+  border-top: 5px solid var(--color-lime);
+}
+
+.footer h4 {
+  color: var(--color-white);
+  font-family: var(--font-display);
+}
+
+.footer p {
+  color: #9ca3af;
+  font-size: 0.9rem;
 }

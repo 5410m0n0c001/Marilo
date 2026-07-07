@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard de Diseño y Creación Digital - mariló</title>
+  <title>Dashboard de Creación Digital - mariló</title>
   
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/style.css">
@@ -13,7 +13,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -25,41 +25,63 @@
     <div class="preloader-spinner"></div>
   </div>
 
-  <!-- Header / Hero Section -->
+  <!-- Header / Hero Section (HLC Split Style) -->
   <header class="header">
     <div class="container">
       <div class="header-content">
-        <div class="header-logo-container">
-          <div style="font-family: var(--font-title); font-size: 2.2rem; font-weight: 700; color: var(--color-gold); border: 2px solid var(--color-gold); width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(9,13,22,0.8); box-shadow: var(--shadow-gold);">
-            m
+        
+        <!-- Left Column: Title and Search Mockup -->
+        <div class="header-title-section anim-fade-in-left">
+          <div style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--color-lime); font-weight: 700; margin-bottom: 10px;">
+            Hogan Lovells Cadwalader inspired
           </div>
-        </div>
-        <div class="header-title-section">
-          <h1>Diseño y Creación Digital Integral - mariló</h1>
-          <p>Ecosistema de Marca Personal, Tienda de Asesorías Express y Bot Legal Automatizado</p>
+          <h1>Diseño y Creación <br><span>Digital Integral</span></h1>
+          <p style="margin-top: 15px;">Firma de Marca Personal, Tienda de Asesorías Express y Automatización Legal con n8n</p>
           
-          <!-- Important Legal Disclaimer Accordion -->
-          <div class="section-wrapper" id="disclaimer-block" style="margin-top: 20px; max-width: 700px; margin-left: auto; margin-right: auto;">
-            <button class="collapsible-header" style="padding: 10px 15px; font-size: 0.95rem; border-radius: 8px; background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.25);">
-              <span class="collapsible-header-title" style="color: var(--color-warning);">⚠️ Nota de Contexto y Alcance Legal</span>
-              <span class="collapsible-icon" style="font-size: 1rem;">+</span>
+          <!-- HLC Inspired Search Mockup -->
+          <div style="background: var(--color-white); border-radius: var(--radius-sm); padding: 6px; display: flex; max-width: 480px; margin-top: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <input type="text" placeholder="¿Qué asesoría legal necesitas?" style="border: none; padding: 12px; flex-grow: 1; outline: none; font-family: var(--font-body); font-size: 0.95rem; color: var(--color-charcoal);" disabled>
+            <button style="background: var(--color-charcoal); color: var(--color-white); border: none; padding: 12px 24px; font-weight: 700; font-family: var(--font-body); font-size: 0.9rem; text-transform: uppercase; cursor: not-allowed;">
+              Buscar
             </button>
-            <div class="collapsible-content">
-              <div class="content-inner" style="font-size: 0.85rem; text-align: left; color: var(--color-text-muted);">
-                <p style="margin-bottom: 10px;">La presente propuesta comercial y tecnológica se enfoca de manera exclusiva en un modelo de **asesorías legales preventivas, rápidas y orientadas a volumen** en las materias Civil, Penal, Laboral y Mercantil, con foco jurisdiccional en el Estado de Morelos y la Ciudad de México (CDMX).</p>
-                <p style="margin-bottom: 10px;">El objetivo estratégico es rentabilizar el conocimiento legal de **mariló** mediante consultas eficientes y canalización automatizada, excluyendo de la planeación operativa las fases de representación o litigio prolongado en tribunales, lo cual optimiza los tiempos de entrega y reduce la carga operativa del despacho.</p>
-                <p>Las estimaciones de ROI y costos de adquisición presentados son proyecciones para la validación del modelo de negocio, debiendo ajustarse periódicamente según la respuesta real del mercado.</p>
-              </div>
-            </div>
           </div>
-          
         </div>
+
+        <!-- Right Column: Hero Highlight Card -->
+        <div class="anim-fade-in-right delay-100">
+          <div class="hero-brand-card">
+            <h3 style="font-weight: 800; border-bottom: 2px solid var(--color-lime); padding-bottom: 8px; margin-bottom: 15px;">
+              Resumen de la Propuesta
+            </h3>
+            <ul>
+              <li><strong>Marca Personal:</strong> mariló abogada.</li>
+              <li><strong>IMPI Registro:</strong> Clase 45 (95% viabilidad libre).</li>
+              <li><strong>Desarrollo Web:</strong> WordPress con maquetador Divi en SiteGround.</li>
+              <li><strong>Ecosistema CRM:</strong> Google Workspace y HubSpot integrado.</li>
+              <li><strong>Automatización:</strong> Chatbot con n8n y API de IA (Límite 3 preguntas).</li>
+              <li><strong>Inversión Inicial:</strong> $38,000 MXN (Diferido).</li>
+            </ul>
+            
+            <a href="#financial-section" style="display: inline-block; margin-top: 15px; font-size: 0.85rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: var(--color-charcoal); border-bottom: 2px solid var(--color-lime);">
+              Ver desglose de costos →
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="container" style="margin-top: var(--space-lg);">
+
+    <!-- Disclaimer / Aviso de Alcance -->
+    <div class="premium-alert info anim-fade-in delay-200" style="margin-bottom: var(--space-lg);">
+      <span class="premium-alert-icon">⚠️</span>
+      <div>
+        <strong>Aviso de Contexto y Alcance Legal:</strong> Este ecosistema está diseñado exclusivamente para un modelo de **asesorías legales preventivas, rápidas y orientadas a volumen** (Civil, Penal, Laboral y Mercantil) para el Estado de Morelos y la CDMX, optimizando tiempos de entrega y evitando el peso administrativo de litigios prolongados.
+      </div>
+    </div>
 
     <!-- SECTION 1: REGISTRO IMPI -->
     <section class="section-wrapper" id="impi-section">
@@ -69,12 +91,12 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Búsqueda de Anterioridades Realizada en Base de Datos Oficial</h3>
+          <h2 class="section-inner-title">Búsqueda Realizada en Base de Datos Oficial</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             Para garantizar la viabilidad y evitar conflictos legales, realizamos una búsqueda real en los registros del **Instituto Mexicano de la Propiedad Industrial (IMPI)**. Confirmamos que el nombre **"mariló"** (y su variante fonética "marilo") **se encuentra completamente libre** de registros o solicitudes activas en las clases aplicables en la República Mexicana.
           </p>
 
-          <div class="premium-alert success">
+          <div class="premium-alert success" style="margin-bottom: var(--space-md);">
             <span class="premium-alert-icon">✔</span>
             <div>
               <strong>Diagnóstico de Viabilidad: 95% (Muy Alta)</strong><br>
@@ -151,19 +173,23 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>La Diferencia Crítica: ¿Por qué Branding y no solo un Logo?</h3>
-          <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
-            Un logotipo es simplemente un símbolo gráfico aislado. El **Branding** es el universo completo de la marca: define la psicología del color adecuada para generar calma y confianza en clientes bajo estrés legal, la jerarquía tipográfica que proyecta rigor técnico y los lineamientos que aseguran consistencia en cada red social, sitio web o documento PDF enviado.
-          </p>
-
-          <div class="card-grid">
-            <div class="premium-card">
-              <h4>Psicología Visual Legal (Propuesta)</h4>
-              <p>Proponemos una combinación basada en la psicología de la marca legal: **Azul Oxford/Midnight** (transmite rigor procesal, seriedad y lealtad) combinado con **Oro Champagne** (excelencia y prestigio) sobre fondos antracita limpios. Esta paleta está diseñada para proyectar la máxima autoridad.</p>
+          <h2 class="section-inner-title">La Diferencia Crítica: ¿Por qué Branding y no solo un Logo?</h2>
+          
+          <!-- HLC Inspired Split Content Card -->
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-md); align-items: start; margin-bottom: var(--space-md);">
+            <div>
+              <p style="color: var(--color-text-muted); margin-bottom: var(--space-sm);">
+                Un logotipo es simplemente un símbolo gráfico aislado. El **Branding** es el universo completo de la marca: define la psicología del color adecuada para generar calma y confianza en clientes bajo estrés legal, la jerarquía tipográfica que proyecta rigor técnico y los lineamientos que aseguran consistencia en cada red social, sitio web o documento PDF enviado.
+              </p>
+              <p style="color: var(--color-text-muted); margin-bottom: var(--space-sm);">
+                Proponemos una combinación basada en la psicología de la marca legal: **Azul Oxford/Midnight** (transmite rigor procesal, seriedad y lealtad) combinado con **Oro Champagne** (excelencia y prestigio) sobre fondos antracita limpios. Esta paleta está diseñada para proyectar la máxima autoridad.
+              </p>
             </div>
-            <div class="premium-card">
-              <h4>Consistencia Multicanal</h4>
-              <p>El manual de identidad entregado asegura que las firmas de correo, las plantillas de cotización, los reportes en PDF y las portadas de redes sociales (FB, LinkedIn, YT) tengan la misma identidad visual, generando autoridad ante los clientes.</p>
+            
+            <div style="border: var(--border-thin); padding: 12px; background: var(--color-white); border-radius: var(--radius-sm); text-align: center; box-shadow: var(--shadow-premium);">
+              <img src="assets/images/marilo_lawyer.jpg" alt="Mariló Abogada Portrait" style="width: 100%; max-width: 250px; margin: 0 auto 10px auto; border-radius: var(--radius-sm); border: 2px solid var(--color-lime);">
+              <div style="font-family: var(--font-display); font-weight: 700; color: var(--color-charcoal);">mariló abogada</div>
+              <div style="font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Marca Personal Propuesta</div>
             </div>
           </div>
 
@@ -192,14 +218,14 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Ecosistema Digital Centralizado (Inversión: $8,000 MXN · Duración: 8 semanas)</h3>
+          <h2 class="section-inner-title">Ecosistema Digital Centralizado (Inversión: $8,000 MXN · Duración: 8 semanas)</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             Para generar volumen, los clientes interesados deben encontrar puntos de contacto directos en sus canales preferidos. Diseñamos la integración multicanal utilizando la infraestructura profesional de Meta, Google y HubSpot.
           </p>
 
           <div class="card-grid">
             <div class="premium-card">
-              <h4>Meta Business Suite Suite</h4>
+              <h4>Meta Business Suite</h4>
               <p>Creación de Fanpage de Facebook e Instagram profesional, integrando **Messenger** e **Instagram Direct**. Configuración de respuestas rápidas unificadas en la suite empresarial de Meta.</p>
             </div>
             <div class="premium-card">
@@ -208,7 +234,7 @@
             </div>
             <div class="premium-card">
               <h4>Google Workspace (Ecosistema)</h4>
-              <p>Configuración del correo profesional con el dominio propio (ejemplo: `marilo@miligante.com` o el dominio que se decida adquirir). Explicación de que al pagar la mensualidad de Google Workspace, este correo profesional funcionará como una cuenta de Google Workspace centralizada (Google Drive, Meet, Calendar y Docs), dándole credibilidad total al negocio.</p>
+              <p>Configuración del correo profesional con el dominio propio (ejemplo: `marilo@miligante.com`). Al pagar la mensualidad de Google Workspace, este correo funcionará como una cuenta de Google Workspace centralizada (Google Drive, Meet, Calendar y Docs), dándole credibilidad total al negocio.</p>
             </div>
             <div class="premium-card">
               <h4>HubSpot CRM (Integración)</h4>
@@ -217,7 +243,7 @@
           </div>
 
           <h3 style="margin-top: var(--space-lg);">Estudio y Sondeo de Mercado Híbrido ($20,000 MXN valor comercial) - ¡INCLUIDO COMO PLUS!</h3>
-          <div class="premium-alert success">
+          <div class="premium-alert success" style="margin-bottom: var(--space-md);">
             <span class="premium-alert-icon">🎁</span>
             <div>
               <strong>PLUS SIN COSTO:</strong> El sondeo de mercado se incluye dentro de los honorarios de la Fase 2.
@@ -247,7 +273,7 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Estrategia Semanal de Contenidos (Inversión Mensual: $8,000 MXN)</h3>
+          <h2 class="section-inner-title">Estrategia Semanal de Contenidos (Inversión Mensual: $8,000 MXN)</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             Para vender volumen de asesorías rápidas, la abogada debe posicionarse como autoridad frente al consumidor final. Esto se logra nutriendo las redes con dos enfoques: **Contenido Gancho** (de amplio alcance) y **Contenido de Autoridad** (educativo y técnico).
           </p>
@@ -315,30 +341,30 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Modelo de Negocio: Venta en Línea Automatizada</h3>
+          <h2 class="section-inner-title">Modelo de Negocio: Venta en Línea Automatizada</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             Para generar volumen sin la carga de litigios complejos, el sitio web incorporará un módulo de e-commerce que permitirá contratar directamente paquetes de asesoría legal. El pago se procesará al instante por Stripe, PayPal o MercadoPago, enlazándose automáticamente con Google Calendar y HubSpot Meetings para reservar la sesión.
           </p>
 
           <h3 style="margin-top: var(--space-lg);">Paquetes Estructurados de Asesoría</h3>
           <div class="card-grid">
-            <div class="premium-card" style="border-top: 3px solid var(--color-gold);">
-              <h4 style="font-family: var(--font-title); font-size: 1.25rem;">📦 Paquete 1: Consulta Express</h4>
-              <p style="font-size: 1.5rem; font-weight: 700; color: #fff; margin: 10px 0;">$400 MXN</p>
+            <div class="premium-card" style="border-top: 3px solid var(--color-lime);">
+              <h4 style="font-size: 1.25rem;">📦 Paquete 1: Consulta Express</h4>
+              <p style="font-size: 1.5rem; font-weight: 800; color: var(--color-charcoal); margin: 10px 0;">$400 MXN</p>
               <p style="font-size: 0.9rem; margin-bottom: 10px;"><strong>Modalidad:</strong> Vía WhatsApp / Chat interactivo.</p>
               <p style="font-size: 0.85rem; color: var(--color-text-muted);">Ideal para resolver dudas puntuales de forma inmediata o una revisión exprés de un documento de una página (ej. un citatorio simple). Respuestas rápidas en texto y notas de voz.</p>
             </div>
             
-            <div class="premium-card" style="border-top: 3px solid var(--color-info);">
-              <h4 style="font-family: var(--font-title); font-size: 1.25rem;">💻 Paquete 2: Asesoría Premium</h4>
-              <p style="font-size: 1.5rem; font-weight: 700; color: #fff; margin: 10px 0;">$900 MXN</p>
+            <div class="premium-card" style="border-top: 3px solid var(--color-charcoal);">
+              <h4 style="font-size: 1.25rem;">💻 Paquete 2: Asesoría Premium</h4>
+              <p style="font-size: 1.5rem; font-weight: 800; color: var(--color-charcoal); margin: 10px 0;">$900 MXN</p>
               <p style="font-size: 0.9rem; margin-bottom: 10px;"><strong>Modalidad:</strong> Videollamada (45 - 60 minutos).</p>
               <p style="font-size: 0.85rem; color: var(--color-text-muted);">Sesión uno a uno vía Google Meet o Zoom. Diagnóstico completo del caso, revisión de documentos clave en pantalla, diseño de estrategia legal y plan de acción para el cliente.</p>
             </div>
             
-            <div class="premium-card" style="border-top: 3px solid var(--color-success);">
-              <h4 style="font-family: var(--font-title); font-size: 1.25rem;">📄 Paquete 3: Diagnóstico de Contratos</h4>
-              <p style="font-size: 1.5rem; font-weight: 700; color: #fff; margin: 10px 0;">$2,000 MXN</p>
+            <div class="premium-card" style="border-top: 3px solid #3b82f6;">
+              <h4 style="font-size: 1.25rem;">📄 Paquete 3: Diagnóstico de Contratos</h4>
+              <p style="font-size: 1.5rem; font-weight: 800; color: var(--color-charcoal); margin: 10px 0;">$2,000 MXN</p>
               <p style="font-size: 0.9rem; margin-bottom: 10px;"><strong>Modalidad:</strong> Revisión + Reporte Escrito.</p>
               <p style="font-size: 0.85rem; color: var(--color-text-muted);">Análisis minucioso de contratos de arrendamiento, contratos de servicios, convenios o demandas civiles/laborales. Se entrega reporte escrito con sugerencias de modificación y riesgos.</p>
             </div>
@@ -359,7 +385,7 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Filosofía de Desarrollo: Por qué Elegimos WordPress + Divi</h3>
+          <h2 class="section-inner-title">Filosofía de Desarrollo: Por qué Elegimos WordPress + Divi</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             Desarrollar el sitio desde cero con código custom (HTML, CSS y Javascript mediante bycoding o prompting de IA) puede parecer moderno, pero presenta riesgos significativos: la abogada dependería al 100% de un programador especializado o experto en prompting para cualquier edición simple en el futuro. 
           </p>
@@ -367,7 +393,7 @@
             Optamos por **WordPress** como framework estable de desarrollo y **Divi** como maquetador visual. Divi nos permite maquetar un sitio web limpio, elegante y de estilo minimalista tipo Apple (alto contraste, tipografía sofisticada, espacios amplios y líneas doradas finas). WordPress es una tecnología madura, estable, compatible con automatizaciones complejas y fácilmente gestionable por la abogada o cualquier diseñador en el futuro.
           </p>
 
-          <div class="premium-alert info">
+          <div class="premium-alert info" style="margin-bottom: var(--space-md);">
             <span class="premium-alert-icon">ℹ</span>
             <div>
               <strong>Alojamiento en SiteGround (Premium):</strong> Recomendamos SiteGround sobre Hostinger debido a su velocidad superior, caché avanzado específico para WordPress, backups diarios automáticos y servidores estables, esenciales para integrar pasarelas de pago y un chatbot que responda sin demoras. El dominio y el hosting se pagan anualmente.
@@ -379,18 +405,18 @@
             El chatbot vive en el sitio web y utiliza un modelo de IA entrenado bajo el marco legal mexicano. El flujo funciona de la siguiente manera:
           </p>
 
-          <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--color-border); margin: var(--space-md) 0;">
+          <div style="background: rgba(0,0,0,0.02); padding: 20px; border-radius: var(--radius-sm); border: var(--border-thin); margin: var(--space-md) 0;">
             <div style="display: flex; flex-direction: column; gap: 15px;">
               <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: var(--color-gold); color: #000; font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">1</div>
+                <div style="background: var(--color-charcoal); color: var(--color-white); font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">1</div>
                 <div><strong>Registro en HubSpot:</strong> El bot saluda y solicita Nombre y Correo para registrar al usuario en el CRM HubSpot antes de iniciar.</div>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: var(--color-gold); color: #000; font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">2</div>
+                <div style="background: var(--color-charcoal); color: var(--color-white); font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">2</div>
                 <div><strong>3 Preguntas Libres de Ley:</strong> El usuario formula hasta 3 dudas abiertas. La IA responde citando conceptos generales de jurisprudencia vigentes en CDMX/Morelos.</div>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="background: var(--color-gold); color: #000; font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">3</div>
+                <div style="background: var(--color-lime); color: var(--color-charcoal); font-weight: bold; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">3</div>
                 <div><strong>Límite y Canalización:</strong> En la 3ª respuesta, el bot despliega una alerta: *"Créditos Gratuitos Agotados"*. Notifica al sistema y redirige automáticamente al checkout para comprar la Asesoría Express o agendar cita directa vía WhatsApp.</div>
               </div>
             </div>
@@ -420,7 +446,7 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Embudo de Conversión de Tráfico de Pago</h3>
+          <h2 class="section-inner-title">Embudo de Conversión de Tráfico de Pago</h2>
           <p style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
             La pauta digital garantiza que el flujo de usuarios al chatbot sea constante. No dependemos del algoritmo orgánico. Combinamos el volumen de redes sociales con la alta intención de búsqueda de Google.
           </p>
@@ -460,7 +486,7 @@
       </button>
       <div class="collapsible-content">
         <div class="content-inner">
-          <h3>Roadmap y Cronograma de Trabajo (Despliegue Secuencial)</h3>
+          <h2 class="section-inner-title">Roadmap y Cronograma de Trabajo (Despliegue Secuencial)</h2>
           
           <div class="timeline">
             <div class="timeline-item">
@@ -516,7 +542,7 @@
             </div>
           </div>
 
-          <h3>Desglose de Inversión Financiera</h3>
+          <h2 class="section-inner-title" style="margin-top: var(--space-lg);">Desglose de Inversión Financiera</h2>
           <div class="table-responsive">
             <table class="premium-table">
               <thead>
@@ -576,14 +602,14 @@
 
           <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 20px;">
             <div class="chart-card">
-              <h4 class="text-center" style="font-family: var(--font-title); color: var(--color-gold); margin-bottom: 10px;">Distribución del Presupuesto de Lanzamiento</h4>
+              <h4 class="text-center" style="margin-bottom: 10px;">Distribución del Presupuesto de Lanzamiento</h4>
               <div style="height: 300px;">
                 <canvas id="budgetChart"></canvas>
               </div>
             </div>
             
             <div class="chart-card">
-              <h4 class="text-center" style="font-family: var(--font-title); color: var(--color-gold); margin-bottom: 10px;">Proyección Financiera e Inflexión de ROI (12 Meses)</h4>
+              <h4 class="text-center" style="margin-bottom: 10px;">Proyección Financiera e Inflexión de ROI (12 Meses)</h4>
               <div style="height: 300px;">
                 <canvas id="projectionChart"></canvas>
               </div>
@@ -594,7 +620,7 @@
           </div>
 
           <div class="text-center" style="margin-top: 30px;">
-            <a href="https://wa.me/521?text=Hola,%20aprobé%20la%20propuesta%20digital%20mariló" target="_blank" class="cta-button anim-pulse-gold">
+            <a href="https://wa.me/521?text=Hola,%20aprobé%20la%20propuesta%20digital%20mariló" target="_blank" class="cta-button">
               Aprobar Propuesta y Comenzar Fase 1 →
             </a>
           </div>
@@ -609,9 +635,12 @@
   </main>
 
   <!-- Footer -->
-  <footer style="text-align: center; padding: var(--space-xl) 0 var(--space-md) 0; border-top: 1px solid var(--color-border); margin-top: var(--space-xl); background: var(--color-bg-surface);">
-    <p style="font-family: var(--font-title); font-size: 1.1rem; color: var(--color-gold); margin-bottom: 8px;">mariló - Asesoría Legal al Alcance de Todos</p>
-    <p style="font-size: 0.8rem; color: var(--color-text-muted);">Jurisprudencia en Morelos y Ciudad de México · 2026</p>
+  <footer class="footer">
+    <div class="container text-center">
+      <h4>mariló - Asesoría Legal al Alcance de Todos</h4>
+      <p style="margin-top: 10px;">Jurisprudencia en Morelos y Ciudad de México · 2026</p>
+      <p style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">Diseño inspirado en el portal premium global de HLC</p>
+    </div>
   </footer>
 
   <!-- App Logic -->
