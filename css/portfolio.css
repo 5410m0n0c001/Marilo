@@ -2,12 +2,13 @@
    Premium Multi-Viewport Portfolio Showcase Styles (Awwwards / Apple Inspired)
    ========================================================================== */
 
-/* Multi-Viewport Flex Container */
-.portfolio-multi-showcase {
+/* Multi-Viewport Flex Containers */
+.portfolio-multi-showcase,
+.web-demo-showcase-container {
   display: flex !important;
   flex-direction: row !important;
   justify-content: center !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 32px !important;
   margin: var(--space-lg) 0 !important;
   width: 100% !important;
@@ -15,6 +16,36 @@
   perspective-origin: 50% 50%;
   position: relative;
   z-index: 1;
+}
+
+/* Column layout for web demos */
+.web-demo-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 20px !important;
+  flex: 1 !important;
+  width: 100% !important;
+  max-width: 380px !important;
+}
+
+.web-demo-column .device-frame-mockup {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Live Demo CTA Button */
+.web-demo-column .cta-button {
+  background: var(--color-lime) !important;
+  color: var(--color-charcoal) !important;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.3, 1) !important;
+  transform: translateY(0);
+}
+
+.web-demo-column .cta-button:hover {
+  background: var(--color-lime-hover) !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(181, 220, 23, 0.25) !important;
 }
 
 /* Reusable device frame mockup (Large and premium) */
@@ -215,11 +246,12 @@
    ========================================================================== */
 
 @media (max-width: 768px) {
-  .portfolio-multi-showcase {
+  .portfolio-multi-showcase,
+  .web-demo-showcase-container {
     flex-direction: column !important;
     max-width: 360px;
     margin: var(--space-md) auto !important;
-    gap: 30px !important;
+    gap: 40px !important;
   }
 
   .device-frame-mockup {

@@ -179,4 +179,24 @@ document.addEventListener("DOMContentLoaded", () => {
       "assets/images/4fb5effe-c12b-402e-ac01-b370faa9af6c.png"
     ]
   );
+
+  // Visor Web 1: Attorney Landing Demo
+  new ShowcaseVisor(
+    "showcase-viewport-web-1",
+    "device-frame-web-1",
+    [
+      "assets/images/Attorney-Landing-Elegant-Themes-07-08-2026_12_29_PM.png",
+      "assets/images/Attorney-Landing-Elegant-Themes-07-08-2026_12_29_PM.png"
+    ]
+  );
+
+  // Visor Web 2: Law Firm Landing Demo
+  new ShowcaseVisor(
+    "showcase-viewport-web-2",
+    "device-frame-web-2",
+    [
+      "assets/images/Law-Firm-Landing-Elegant-Themes-07-08-2026_12_33_PM.png",
+      "assets/images/Law-Firm-Landing-Elegant-Themes-07-08-2026_12_33_PM.png"
+    ]
+  );
 });
