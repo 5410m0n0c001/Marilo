@@ -1,356 +1,182 @@
 /**
- * Premium Portfolio Showcase Component Script
+ * Premium Multi-Viewport Showcase Component Script
  * Features:
- * - Constant pixels-per-second scrolling speed
+ * - Independent Object-Oriented class instances for multiple viewports
  * - requestAnimationFrame for smooth 60 FPS scrolling
- * - Lazy-loading and preloading (only 2 images in DOM at a time)
+ * - Lazy-loading and preloading (only 2 images in DOM per visor)
  * - Apple-inspired 3D cylinder rotating transition
- * - Hover / Touch pause behavior
- * - Dynamic metadata synchronization with soft fade animations
+ * - Hover / Touch pause behavior per frame
  */
 
-(function () {
-  // 1. Projects Data Structure
-  const PROJECTS = [
-    {
-      id: "01",
-      title: "Identidad Gráfica & Branding Legal",
-      desc: "Desarrollo completo de la identidad visual de la marca. Incluye la selección cromática de alta gama, el isotipo corporativo, retículas de papelería e informes legales diseñados para proyectar rigor técnico y excelencia.",
-      tags: ["Marca Personal", "Dirección de Arte", "Logotipo", "Editorial"],
-      image: "assets/images/identidad grafica.png"
-    },
-    {
-      id: "02",
-      title: "Ecosistema Digital Centralizado",
-      desc: "Interfaz del sitio web principal optimizado para conversión. Presenta una arquitectura de la información impecable, una tipografía de gran legibilidad y botones de llamada a la acción integrados con HubSpot CRM.",
-      tags: ["Diseño Web", "WordPress", "UX/UI", "HubSpot"],
-      image: "assets/images/3096949b-3bbb-4399-9024-0cec2ac380ff.png"
-    },
-    {
-      id: "03",
-      title: "Plataforma de Consultoría Jurídica",
-      desc: "Sitio web interactivo enfocado en la contratación de servicios legales en línea. Integra un embudo optimizado y un sistema de agendas automatizado para una experiencia de usuario sumamente fluida.",
-      tags: ["WordPress", "Divi", "eCommerce", "Pasarela de Pagos"],
-      image: "assets/images/a28a990a-18ba-437f-981d-1087a5de8498.png"
-    },
-    {
-      id: "04",
-      title: "Portal de Asesorías Automatizadas",
-      desc: "Maquetación del catálogo de asesorías legales por materias. Permite a los clientes corporativos seleccionar y reservar paquetes específicos con facturación automatizada.",
-      tags: ["Catálogo Digital", "Divi Builder", "Automatización", "Fintech"],
-      image: "assets/images/82bd38aa-dd1c-4476-9d32-3aa8ced084c8.png"
-    },
-    {
-      id: "05",
-      title: "Embudo de Conversión de Tráfico",
-      desc: "Página de aterrizaje optimizada para campañas de tráfico pagado (Meta & Google Ads). Estructura persuasiva que recopila datos de clientes potenciales directamente hacia el CRM.",
-      tags: ["Landing Page", "Lead Gen", "n8n Integration", "Ads Optimization"],
-      image: "assets/images/48b887dc-1874-4b9d-9bab-3c748739b2c8.png"
-    },
-    {
-      id: "06",
-      title: "Notion & Asana Workspace",
-      desc: "Área de cliente centralizada y panel de control interno del proyecto. Permite un seguimiento del estado de los registros de marcas y las asesorías legales en tiempo real.",
-      tags: ["Workspace Design", "Gestión de Proyectos", "API Integrations", "CRM"],
-      image: "assets/images/4fb5effe-c12b-402e-ac01-b370faa9af6c.png"
-    },
-    {
-      id: "07",
-      title: "Estudio y Sondeo de Mercado",
-      desc: "Visualización digital del reporte interactivo de viabilidad de marcas y análisis competitivo. Diseñado bajo rigurosas retículas editoriales con diagramación de datos premium.",
-      tags: ["Análisis de Datos", "Diseño Editorial", "WordPress Custom Page", "PDF Reports"],
-      image: "assets/images/55680def-d305-4a89-8bce-a351dcb7c3ac.png"
-    }
-  ];
+class ShowcaseVisor {
+  constructor(viewportId, frameId, images) {
+    this.viewport = document.getElementById(viewportId);
+    this.frame = document.getElementById(frameId);
+    this.images = images;
+    
+    if (!this.viewport || !this.frame) return;
 
-  // 2. Constants and State Variables
-  const SCROLL_SPEED = 55; // Pixels per second
-  const PAUSE_AT_BOTTOM = 1200; // milliseconds
-  const TRANSITION_DURATION = 1800; // milliseconds
+    this.activeIndex = 0;
+    this.isPaused = false;
+    this.isTransitioning = false;
+    this.currentY = 0;
+    this.maxScrollY = 0;
+    this.lastTime = 0;
 
-  let activeIndex = 0;
-  let isPaused = false;
-  let isTransitioning = false;
+    // Create double-buffer container layers
+    this.activeContainer = document.createElement("div");
+    this.activeContainer.className = "screenshot-container active";
+    this.activeImg = document.createElement("img");
+    this.activeImg.className = "screenshot-img";
+    this.activeContainer.appendChild(this.activeImg);
+    this.viewport.appendChild(this.activeContainer);
 
-  let currentY = 0;
-  let maxScrollY = 0;
-  let lastTime = 0;
+    this.incomingContainer = document.createElement("div");
+    this.incomingContainer.className = "screenshot-container incoming";
+    this.incomingImg = document.createElement("img");
+    this.incomingImg.className = "screenshot-img";
+    this.incomingContainer.appendChild(this.incomingImg);
+    this.viewport.appendChild(this.incomingContainer);
 
-  // DOM references
-  let viewport, activeContainer, incomingContainer, activeImg, incomingImg;
-  let metaCounter, projectTitle, projectDesc, tagsContainer, indicators;
+    // Initial load
+    this.loadProject(0);
 
-  // 3. Initialize Component
-  function init() {
-    viewport = document.getElementById("showcase-viewport");
-    if (!viewport) return;
+    // Event listeners
+    this.frame.addEventListener("mouseenter", () => { this.isPaused = true; });
+    this.frame.addEventListener("mouseleave", () => { this.isPaused = false; });
+    
+    this.frame.addEventListener("touchstart", () => { this.isPaused = true; }, { passive: true });
+    this.frame.addEventListener("touchend", () => { this.isPaused = false; }, { passive: true });
+    this.frame.addEventListener("touchcancel", () => { this.isPaused = false; }, { passive: true });
 
-    // Create container elements dynamically for preloading / double buffering
-    activeContainer = document.createElement("div");
-    activeContainer.className = "screenshot-container active";
-    activeImg = document.createElement("img");
-    activeImg.className = "screenshot-img";
-    activeContainer.appendChild(activeImg);
-    viewport.appendChild(activeContainer);
+    // Recalculate heights on window resize
+    window.addEventListener("resize", () => this.calculateHeights());
 
-    incomingContainer = document.createElement("div");
-    incomingContainer.className = "screenshot-container incoming";
-    incomingImg = document.createElement("img");
-    incomingImg.className = "screenshot-img";
-    incomingContainer.appendChild(incomingImg);
-    viewport.appendChild(incomingContainer);
-
-    // Get metadata DOM elements
-    metaCounter = document.getElementById("portfolio-counter");
-    projectTitle = document.getElementById("portfolio-title");
-    projectDesc = document.getElementById("portfolio-desc");
-    tagsContainer = document.getElementById("portfolio-tags-list");
-    indicators = document.querySelectorAll(".portfolio-indicator-item");
-
-    // Load first project
-    loadProject(activeIndex, true);
-
-    // Setup Event Listeners for Hover and Touch control
-    const frame = document.getElementById("device-frame");
-    if (frame) {
-      // Desktop Hover Pause
-      frame.addEventListener("mouseenter", () => { isPaused = true; });
-      frame.addEventListener("mouseleave", () => { isPaused = false; });
-      
-      // Mobile Touch Pause
-      frame.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
-      frame.addEventListener("touchend", () => { isPaused = false; }, { passive: true });
-      frame.addEventListener("touchcancel", () => { isPaused = false; }, { passive: true });
-    }
-
-    // Setup indicator clicks
-    if (indicators) {
-      indicators.forEach((item, index) => {
-        item.addEventListener("click", () => {
-          if (isTransitioning || activeIndex === index) return;
-          triggerTransitionTo(index);
-        });
-      });
-    }
-
-    // Start requestAnimationFrame Loop
-    requestAnimationFrame(updateLoop);
+    // Start Loop
+    requestAnimationFrame((t) => this.updateLoop(t));
   }
 
-  // 4. Load Project Data
-  function loadProject(index, isFirstLoad = false) {
-    const project = PROJECTS[index];
+  loadProject(index) {
+    this.activeIndex = index;
+    this.activeImg.src = this.images[index];
+    this.currentY = 0;
+    this.activeImg.style.transform = `translateY(0)`;
     
-    // Set active index state
-    activeIndex = index;
-
-    // Active project setup
-    activeImg.src = project.image;
-    currentY = 0;
-    activeImg.style.transform = `translateY(0)`;
-    
-    // Ensure image load measures height correctly
-    activeImg.onload = function() {
-      calculateHeights();
-    };
-    // Fallback if cached
-    if (activeImg.complete) {
-      calculateHeights();
+    this.activeImg.onload = () => this.calculateHeights();
+    if (this.activeImg.complete) {
+      this.calculateHeights();
     }
-
-    // Update texts and indicators immediately on first load, or with smooth fades
-    updateMetadataUI(project, isFirstLoad);
-    updateIndicatorsUI(index);
 
     // Preload next image in queue
-    preloadNextImage();
+    const nextIndex = (index + 1) % this.images.length;
+    this.incomingImg.src = this.images[nextIndex];
   }
 
-  // 5. Heights Calculation
-  function calculateHeights() {
-    if (!activeImg || !viewport) return;
-    const imgHeight = activeImg.getBoundingClientRect().height;
-    const viewHeight = viewport.getBoundingClientRect().height;
-    maxScrollY = Math.max(0, imgHeight - viewHeight);
+  calculateHeights() {
+    if (!this.activeImg || !this.viewport) return;
+    const imgHeight = this.activeImg.getBoundingClientRect().height;
+    const viewHeight = this.viewport.getBoundingClientRect().height;
+    this.maxScrollY = Math.max(0, imgHeight - viewHeight);
   }
 
-  // 6. Preload Next Image
-  function preloadNextImage() {
-    const nextIndex = (activeIndex + 1) % PROJECTS.length;
-    incomingImg.src = PROJECTS[nextIndex].image;
-  }
+  updateLoop(timestamp) {
+    if (!this.lastTime) this.lastTime = timestamp;
+    const delta = (timestamp - this.lastTime) / 1000;
+    this.lastTime = timestamp;
 
-  // 7. Update Loop (Animation Loop)
-  function updateLoop(timestamp) {
-    if (!lastTime) lastTime = timestamp;
-    const delta = (timestamp - lastTime) / 1000; // in seconds
-    lastTime = timestamp;
-
-    if (!isPaused && !isTransitioning && maxScrollY > 0) {
-      // Scroll image up
-      currentY += SCROLL_SPEED * delta;
+    if (!this.isPaused && !this.isTransitioning && this.maxScrollY > 0) {
+      this.currentY += 50 * delta; // speed in pixels per second
       
-      if (currentY >= maxScrollY) {
-        currentY = maxScrollY;
-        activeImg.style.transform = `translateY(-${currentY}px)`;
+      if (this.currentY >= this.maxScrollY) {
+        this.currentY = this.maxScrollY;
+        this.activeImg.style.transform = `translateY(-${this.currentY}px)`;
         
-        // Update indicator fill to 100%
-        updateProgressFill(100);
-
         // Pause at bottom, then transition
-        isTransitioning = true;
+        this.isTransitioning = true;
         setTimeout(() => {
-          triggerTransitionTo((activeIndex + 1) % PROJECTS.length);
-        }, PAUSE_AT_BOTTOM);
+          this.triggerTransition();
+        }, 1200); // 1.2 second pause
       } else {
-        activeImg.style.transform = `translateY(-${currentY}px)`;
-        
-        // Calculate progress percentage
-        const progress = (currentY / maxScrollY) * 100;
-        updateProgressFill(progress);
+        this.activeImg.style.transform = `translateY(-${this.currentY}px)`;
       }
     }
 
-    requestAnimationFrame(updateLoop);
+    requestAnimationFrame((t) => this.updateLoop(t));
   }
 
-  // 8. Progress Fill Animation
-  function updateProgressFill(percentage) {
-    const activeIndicator = document.querySelector(`.portfolio-indicator-item[data-index="${activeIndex}"] .indicator-line-fill`);
-    if (activeIndicator) {
-      activeIndicator.style.width = `${percentage}%`;
-    }
-  }
-
-  // 9. Reset Progress Fills
-  function resetProgressFills() {
-    const fills = document.querySelectorAll(".indicator-line-fill");
-    fills.forEach(fill => {
-      fill.style.width = "0%";
-    });
-  }
-
-  // 10. Metadata UI Updates with dynamic fades
-  function updateMetadataUI(project, immediate = false) {
-    if (immediate) {
-      if (metaCounter) metaCounter.textContent = `${project.id} / ${PROJECTS.length.toString().padStart(2, '0')}`;
-      if (projectTitle) projectTitle.textContent = project.title;
-      if (projectDesc) projectDesc.textContent = project.desc;
-      updateTagsUI(project.tags);
-      return;
-    }
-
-    // Apply fade-out classes
-    const fadeElements = [projectTitle, projectDesc, tagsContainer];
-    fadeElements.forEach(el => {
-      if (el) {
-        el.classList.add("fade-out-down");
-        el.classList.remove("fade-in-up");
-      }
-    });
-
-    setTimeout(() => {
-      // Swap content
-      if (metaCounter) metaCounter.textContent = `${project.id} / ${PROJECTS.length.toString().padStart(2, '0')}`;
-      if (projectTitle) projectTitle.textContent = project.title;
-      if (projectDesc) projectDesc.textContent = project.desc;
-      updateTagsUI(project.tags);
-
-      // Trigger fade-in
-      fadeElements.forEach(el => {
-        if (el) {
-          el.classList.remove("fade-out-down");
-          el.classList.add("fade-in-up");
-        }
-      });
-    }, 400);
-  }
-
-  // 11. Tags UI rendering
-  function updateTagsUI(tags) {
-    if (!tagsContainer) return;
-    tagsContainer.innerHTML = "";
-    tags.forEach(tag => {
-      const tagSpan = document.createElement("span");
-      tagSpan.className = "portfolio-tag";
-      tagSpan.textContent = tag;
-      tagsContainer.appendChild(tagSpan);
-    });
-  }
-
-  // 12. Indicators class update
-  function updateIndicatorsUI(index) {
-    if (!indicators) return;
-    indicators.forEach((item, idx) => {
-      if (idx === index) {
-        item.classList.add("active");
-      } else {
-        item.classList.remove("active");
-      }
-    });
-  }
-
-  // 13. Cylinder 3D Transition Trigger
-  function triggerTransitionTo(nextIndex) {
-    isTransitioning = true;
-    isPaused = true;
+  triggerTransition() {
+    this.isTransitioning = true;
+    this.isPaused = true;
     
-    // Ensure the incoming image is set to the correct one (handles manual navigation)
-    incomingImg.src = PROJECTS[nextIndex].image;
-    incomingImg.style.transform = "translateY(0)"; // Start incoming image scroll at 0
+    const nextIndex = (this.activeIndex + 1) % this.images.length;
+    this.incomingImg.src = this.images[nextIndex];
+    this.incomingImg.style.transform = "translateY(0)";
 
-    // Force reflow/repaint to apply transition correctly
-    incomingContainer.getBoundingClientRect();
-
-    // Reset progress indicator bars
-    resetProgressFills();
+    // Force reflow/repaint
+    this.incomingContainer.getBoundingClientRect();
 
     // Trigger CSS 3D Slot Machine Transition
-    activeContainer.classList.remove("active");
-    activeContainer.classList.add("outgoing");
+    this.activeContainer.classList.remove("active");
+    this.activeContainer.classList.add("outgoing");
 
-    incomingContainer.classList.remove("incoming");
-    incomingContainer.classList.add("active");
+    this.incomingContainer.classList.remove("incoming");
+    this.incomingContainer.classList.add("active");
 
-    // Fade out metadata and animate text transitions
-    updateMetadataUI(PROJECTS[nextIndex], false);
-    updateIndicatorsUI(nextIndex);
-
-    // Wait for transition duration
     setTimeout(() => {
-      // Transition completed, swap active and incoming containers in state
-      const tempContainer = activeContainer;
-      const tempImg = activeImg;
+      // Swap layers
+      const tempContainer = this.activeContainer;
+      const tempImg = this.activeImg;
 
-      activeContainer = incomingContainer;
-      activeImg = incomingImg;
+      this.activeContainer = this.incomingContainer;
+      this.activeImg = this.incomingImg;
 
-      incomingContainer = tempContainer;
-      incomingImg = tempImg;
+      this.incomingContainer = tempContainer;
+      this.incomingImg = tempImg;
 
-      // Reset the new incoming container classes
-      incomingContainer.className = "screenshot-container incoming";
-      incomingImg.style.transform = "translateY(0)";
+      // Reset new incoming container
+      this.incomingContainer.className = "screenshot-container incoming";
+      this.incomingImg.style.transform = "translateY(0)";
 
-      activeIndex = nextIndex;
-      calculateHeights();
+      this.activeIndex = nextIndex;
+      this.calculateHeights();
 
-      // Reset state for new scroll
-      currentY = 0;
-      isTransitioning = false;
-      isPaused = false;
-    }, TRANSITION_DURATION);
+      this.currentY = 0;
+      this.isTransitioning = false;
+      this.isPaused = false;
+    }, 1800); // transition duration matching CSS
   }
+}
 
-  // 14. Handle window resize to recalculate viewport and image dimensions
-  window.addEventListener("resize", () => {
-    calculateHeights();
-  });
+// Initialize Visors once DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  // Visor 1: Branding & Identidad
+  new ShowcaseVisor(
+    "showcase-viewport-1",
+    "device-frame-1",
+    [
+      "assets/images/identidad grafica.png",
+      "assets/images/55680def-d305-4a89-8bce-a351dcb7c3ac.png"
+    ]
+  );
 
-  // Run on load
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
-})();
+  // Visor 2: Ecosistema & Interfaces
+  new ShowcaseVisor(
+    "showcase-viewport-2",
+    "device-frame-2",
+    [
+      "assets/images/3096949b-3bbb-4399-9024-0cec2ac380ff.png",
+      "assets/images/a28a990a-18ba-437f-981d-1087a5de8498.png"
+    ]
+  );
+
+  // Visor 3: Embudos & Plataformas
+  new ShowcaseVisor(
+    "showcase-viewport-3",
+    "device-frame-3",
+    [
+      "assets/images/82bd38aa-dd1c-4476-9d32-3aa8ced084c8.png",
+      "assets/images/48b887dc-1874-4b9d-9bab-3c748739b2c8.png",
+      "assets/images/4fb5effe-c12b-402e-ac01-b370faa9af6c.png"
+    ]
+  );
+});
