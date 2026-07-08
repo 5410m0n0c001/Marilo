@@ -1,0 +1,411 @@
+/* ==========================================================================
+   Premium Portfolio Showcase Component Styles (Awwwards / Apple Inspired)
+   ========================================================================== */
+
+/* Grid container layout */
+.portfolio-showcase-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  margin: var(--space-lg) 0;
+  padding: var(--space-md);
+  background: var(--color-white);
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background glow */
+.portfolio-showcase-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(181, 220, 23, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Left Column: Project details */
+.portfolio-info-column {
+  position: relative;
+  z-index: 1;
+  padding-right: var(--space-md);
+}
+
+.portfolio-meta {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portfolio-meta .counter {
+  color: var(--color-charcoal);
+  border-left: 2px solid var(--color-lime);
+  padding-left: 10px;
+}
+
+.portfolio-title-wrapper {
+  min-height: 80px;
+  margin-bottom: var(--space-sm);
+}
+
+.portfolio-project-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-charcoal);
+  line-height: 1.1;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  margin: 0;
+}
+
+.portfolio-desc-wrapper {
+  min-height: 100px;
+  margin-bottom: var(--space-md);
+}
+
+.portfolio-project-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  margin: 0;
+}
+
+/* Tech Tags */
+.portfolio-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+  min-height: 35px;
+}
+
+.portfolio-tag {
+  background: var(--color-light-bg);
+  border: var(--border-thin);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-charcoal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.portfolio-tag:hover {
+  border-color: var(--color-lime);
+  background: var(--color-lime-light);
+}
+
+/* Indicators and progress bars */
+.portfolio-indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.portfolio-indicator-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.portfolio-indicator-item.active {
+  opacity: 1;
+}
+
+.indicator-line-wrapper {
+  position: relative;
+  width: 40px;
+  height: 2px;
+  background: var(--color-light-gray);
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.indicator-line-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--color-lime);
+  transition: width 0.1s linear;
+}
+
+.indicator-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-charcoal);
+}
+
+/* Text transitions classes */
+.fade-out-down {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Right Column: 3D Viewport Showcase */
+.portfolio-viewport-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1500px;
+  perspective-origin: 50% 50%;
+  z-index: 1;
+}
+
+/* Luxury device mockup frame */
+.device-frame-mockup {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 700px;
+  background: #1e1b1c; /* Almost black luxury frame color */
+  border-radius: 36px;
+  padding: 12px;
+  box-shadow: 
+    0 40px 100px rgba(35, 31, 32, 0.18), 
+    0 20px 40px rgba(35, 31, 32, 0.1),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 3px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Viewport inside the frame */
+.showcase-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #141213; /* Deep luxury dark background */
+  border-radius: 26px;
+  overflow: hidden;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  mask-image: -webkit-radial-gradient(white, black); /* Fix rounded corner clip overflow on Safari */
+}
+
+/* Device notch decoration */
+.device-notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 24px;
+  background: #1e1b1c;
+  border-radius: 12px;
+  z-index: 10;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* Glass glare/reflection overlay */
+.glass-reflection-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(0, 0, 0, 0) 41%, rgba(0, 0, 0, 0.1) 100%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Bezel inner shadow */
+.screen-shadow-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Wrapper Containers (Rotating reels) */
+.screenshot-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 1.8s cubic-bezier(0.23, 1, 0.32, 1), opacity 1.8s ease;
+  will-change: transform, opacity;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* 3D Cinematic cylinder rotating states */
+.screenshot-container.incoming {
+  transform: translateY(85%) rotateX(45deg) scale(0.93);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.screenshot-container.active {
+  transform: translateY(0) rotateX(0deg) scale(1);
+  opacity: 1;
+  z-index: 3;
+}
+
+.screenshot-container.outgoing {
+  transform: translateY(-85%) rotateX(-45deg) scale(0.93);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Image settings */
+.screenshot-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(0);
+  will-change: transform;
+  pointer-events: none;
+  image-rendering: -webkit-optimize-contrast; /* Sharper rendering for text screenshots */
+}
+
+/* Hover/Touch status notice */
+.showcase-hint {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(35, 31, 32, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: var(--color-white);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 6;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.device-frame-mockup:hover .showcase-hint {
+  opacity: 1;
+}
+
+.showcase-hint::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--color-lime);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-lime);
+}
+
+
+/* ==========================================================================
+   Responsive Adaptation
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .portfolio-showcase-section {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    max-width: 600px;
+    margin: var(--space-md) auto;
+  }
+
+  .portfolio-info-column {
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .portfolio-meta {
+    justify-content: center;
+  }
+
+  .portfolio-title-wrapper {
+    min-height: auto;
+  }
+
+  .portfolio-desc-wrapper {
+    min-height: auto;
+  }
+
+  .portfolio-tags {
+    justify-content: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .portfolio-indicators {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: var(--space-md);
+  }
+
+  .indicator-line-wrapper {
+    width: 25px;
+  }
+
+  .indicator-label {
+    display: none;
+  }
+
+  .device-frame-mockup {
+    height: 600px;
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .device-frame-mockup {
+    height: 520px;
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 28px;
+  }
+
+  .showcase-viewport {
+    border-radius: 20px;
+  }
+
+  .device-notch {
+    width: 90px;
+    height: 18px;
+    top: 15px;
+  }
+}

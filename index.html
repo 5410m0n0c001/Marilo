@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/charts.css">
+  <link rel="stylesheet" href="css/portfolio.css">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -880,6 +881,90 @@
             <li>Vinculación de formularios y del chat del bot directamente a **HubSpot CRM**.</li>
           </ul>
 
+          <!-- Portfolio Showcase Component -->
+          <div class="portfolio-showcase-section stagger-item pop-up">
+            <!-- Left Column: Info -->
+            <div class="portfolio-info-column">
+              <div class="portfolio-meta">
+                <span>Portafolio</span>
+                <span class="counter" id="portfolio-counter">01 / 07</span>
+              </div>
+              <div class="portfolio-title-wrapper">
+                <h3 class="portfolio-project-title" id="portfolio-title">Cargando...</h3>
+              </div>
+              <div class="portfolio-desc-wrapper">
+                <p class="portfolio-project-desc" id="portfolio-desc">Cargando detalles del proyecto...</p>
+              </div>
+              <div class="portfolio-tags" id="portfolio-tags-list">
+                <!-- Tags will be dynamically populated -->
+              </div>
+              
+              <!-- Custom bullet indicators with fill progress bars -->
+              <div class="portfolio-indicators">
+                <div class="portfolio-indicator-item active" data-index="0">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Identidad</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="1">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Ecosistema</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="2">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Consultoría</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="3">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Asesorías</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="4">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Embudo</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="5">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Workspace</span>
+                </div>
+                <div class="portfolio-indicator-item" data-index="6">
+                  <div class="indicator-line-wrapper">
+                    <div class="indicator-line-fill" style="width: 0%;"></div>
+                  </div>
+                  <span class="indicator-label">Estudio</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Viewport Frame Mockup -->
+            <div class="portfolio-viewport-column">
+              <div class="device-frame-mockup" id="device-frame">
+                <!-- Device Island/Notch decoration -->
+                <div class="device-notch"></div>
+                <!-- Interactive viewport -->
+                <div class="showcase-viewport" id="showcase-viewport">
+                  <!-- Glare reflection effect overlay -->
+                  <div class="glass-reflection-overlay"></div>
+                  <!-- Bezel inner shadow overlay -->
+                  <div class="screen-shadow-overlay"></div>
+                  <!-- Active image and preloader slide elements are dynamically mounted by JS -->
+                </div>
+                <!-- Interaction Hover/Touch toast hint -->
+                <div class="showcase-hint">Hover / Touch to pause</div>
+              </div>
+            </div>
+          </div>
+
           <button class="share-section-btn stagger-item pop-up" data-section="web-bot-section" data-title="Web y Chatbot mariló">
             🔗 Compartir esta sección
           </button>
@@ -1350,5 +1435,6 @@
 
   <!-- App Logic -->
   <script src="js/app.js"></script>
+  <script src="js/portfolio.js"></script>
 </body>
 </html>
