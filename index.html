@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/charts.css">
-  <link rel="stylesheet" href="css/portfolio.css?v=1.3">
+  <link rel="stylesheet" href="css/portfolio.css?v=1.4">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -882,6 +882,20 @@
             <li>**Conexión de Actividades Diarias:** Conectores con clientes de correo, agendas y software de gestión de expedientes para nutrir de forma interactiva a su agente de IA personalizado.</li>
           </ul>
 
+          <!-- Demo de Referencia de Inteligencia Artificial -->
+          <h3 class="stagger-item slide-left" style="margin-top: var(--space-lg);">🤖 Demo de Referencia: Asistente de IA (Primavera Events Group)</h3>
+          <p class="stagger-item slide-left" style="color: var(--color-text-muted); margin-bottom: var(--space-sm);">
+            Para ilustrar las capacidades y la lógica conversacional de un agente de Inteligencia Artificial de última generación (antes de extrapolarlo y entrenarlo con la jurisprudencia legal para mariló), te invitamos a probar un asistente que desarrollamos para <strong>Primavera Events Group</strong>.
+          </p>
+          <p class="stagger-item slide-left" style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
+            Esta demo interactiva está alojada en Google AI Studio y te permitirá interactuar en tiempo real con la lógica y tono que podemos estructurar.
+          </p>
+          <div class="stagger-item pop-up" style="display: flex; justify-content: center; margin: 20px 0 35px 0;">
+            <button id="openAIDemoBtn" class="cta-button" style="text-decoration: none; padding: 12px 30px; font-weight: 800; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.05em; background: var(--color-charcoal); color: var(--color-lime); border: 2px solid var(--color-lime); border-radius: var(--radius-sm); cursor: pointer; box-shadow: var(--shadow-premium); transition: all 0.3s ease; display: inline-block;">
+              Probar Demo de IA de Referencia ↗
+            </button>
+          </div>
+
           <h3 class="stagger-item slide-left" style="margin-top: var(--space-lg);">Fase 3: Desarrollo Web e Integraciones (Inversión: $18,000 MXN + IVA · Duración: 3 - 4 meses)</h3>
           <ul class="stagger-item slide-left">
             <li>Instalación y configuración de WordPress con la plantilla premium Divi.</li>
@@ -1361,6 +1375,39 @@
 
   <!-- App Logic -->
   <script src="js/app.js"></script>
-  <script src="js/portfolio.js?v=1.3"></script>
+  <script src="js/portfolio.js?v=1.4"></script>
+  <!-- Modal de Advertencia de Google AI Studio -->
+  <div id="aiDemoModal" class="ai-modal-overlay" style="display: none;">
+    <div class="ai-modal-content">
+      <button class="ai-modal-close" id="closeAIDemoBtn">&times;</button>
+      <div class="ai-modal-header">
+        <span class="ai-modal-icon">🤖</span>
+        <h4>Demo de Asistente de IA de Referencia</h4>
+        <p class="ai-modal-subtitle">Proyecto: Primavera Events Group</p>
+      </div>
+      <div class="ai-modal-body">
+        <p>Estás por ingresar a la demo de nuestro agente inteligente conversacional desarrollado para Primavera Events Group.</p>
+        
+        <div class="ai-modal-info-box">
+          <span class="ai-modal-info-icon">⚠️</span>
+          <div>
+            <strong>Requisitos de Google AI Studio:</strong>
+            <ul style="margin-top: 5px; padding-left: 15px; font-size: 0.8rem; list-style-type: disc;">
+              <li>Deberás aceptar el aviso de desarrollador independiente de Google.</li>
+              <li>Es necesario iniciar sesión con una cuenta activa de Google.</li>
+            </ul>
+          </div>
+        </div>
+        
+        <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 10px;">
+          Esta demo sirve como referencia técnica para mostrar el tipo de lógica conversacional, velocidad y análisis de datos que podemos extrapolar e implementar a la medida para tu firma legal.
+        </p>
+      </div>
+      <div class="ai-modal-footer">
+        <a href="https://aistudio.google.com/apps/970a754b-8502-417d-b839-3b954aaf08b0?showPreview=true&showAssistant=true" target="_blank" id="launchAIDemoBtn" class="cta-button" style="text-align: center; display: block; width: 100%; text-decoration: none; padding: 12px 20px; font-weight: 800; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; background: var(--color-lime); color: var(--color-charcoal); border-radius: var(--radius-sm); border: none; box-shadow: var(--shadow-premium); transition: all 0.3s ease; border-bottom: none;">Lanzar Demo en Google AI Studio ↗</a>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

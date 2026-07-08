@@ -199,4 +199,41 @@ document.addEventListener("DOMContentLoaded", () => {
       "assets/images/Law-Firm-Landing-Elegant-Themes-07-08-2026_12_33_PM.png"
     ]
   );
+
+  // AI Demo Modal Controller
+  const openBtn = document.getElementById("openAIDemoBtn");
+  const closeBtn = document.getElementById("closeAIDemoBtn");
+  const modal = document.getElementById("aiDemoModal");
+  const launchBtn = document.getElementById("launchAIDemoBtn");
+
+  if (openBtn && closeBtn && modal) {
+    openBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.style.display = "flex";
+      setTimeout(() => {
+        modal.classList.add("open");
+      }, 10);
+    });
+
+    const closeModal = () => {
+      modal.classList.remove("open");
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 400);
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    if (launchBtn) {
+      launchBtn.addEventListener("click", () => {
+        closeModal();
+      });
+    }
+  }
 });
