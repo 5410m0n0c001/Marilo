@@ -1,0 +1,479 @@
+{
+  "name": "Chatbot Juridico MX - Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat-juridico",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://5410m0n0c001.github.io"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        240
+      ],
+      "id": "webhook-node",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-token",
+              "leftValue": "={{ $headers[\"x-chat-token\"] }}",
+              "rightValue": "AbogadaMarilo2026!",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        220,
+        240
+      ],
+      "id": "if-token-node",
+      "name": "Verify Token"
+    },
+    {
+      "parameters": {
+        "responseCode": 401,
+        "responseBody": "{\n  \"error\": \"Unauthorized: Invalid or missing X-Chat-Token header\"\n}"
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        380,
+        60
+      ],
+      "id": "respond-unauthorized-node",
+      "name": "Webhook Response - 401"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "table": {
+          "__rl": true,
+          "value": "chat_sessions",
+          "mode": "list",
+          "cachedResultName": "chat_sessions"
+        },
+        "columns": [
+          "session_id",
+          "question_count"
+        ],
+        "options": {
+          "filter": "session_id=eq.{{ $json.body.session_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        460,
+        240
+      ],
+      "id": "supabase-select-session",
+      "name": "Supabase - Get Session",
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "session-exists",
+              "leftValue": "={{ $json.session_id }}",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty",
+                "name": "filter.operator.isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        240
+      ],
+      "id": "if-session-exists-node",
+      "name": "If - Session Exists"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "table": {
+          "__rl": true,
+          "value": "chat_sessions",
+          "mode": "list",
+          "cachedResultName": "chat_sessions"
+        },
+        "fields": {
+          "session_id": "={{ $('Webhook').item.json.body.session_id }}",
+          "question_count": 0
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        880,
+        100
+      ],
+      "id": "supabase-insert-session",
+      "name": "Supabase - Create Session",
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-count",
+              "leftValue": "={{ $json.question_count }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "lessThan",
+                "name": "filter.operator.lessThan"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        240
+      ],
+      "id": "if-count-less-than-3",
+      "name": "If - Q Count < 3"
+    },
+    {
+      "parameters": {
+        "model": "embed-multilingual-v3.0",
+        "text": "={{ $('Webhook').item.json.body.message }}",
+        "inputType": "search_query"
+      },
+      "type": "n8n-nodes-base.cohere",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        150
+      ],
+      "id": "cohere-embed",
+      "name": "Cohere - Embed Query",
+      "credentials": {
+        "cohereApi": {
+          "id": "cohere-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "rpc",
+        "functionName": "match_legal_chunks",
+        "rpcParameters": "{\n  \"query_embedding\": \"={{ $json.embedding }}\",\n  \"match_threshold\": 0.5,\n  \"match_count\": 10\n}"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        150
+      ],
+      "id": "supabase-rpc-match",
+      "name": "Supabase - RPC match",
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "rerank-v3.5",
+        "query": "={{ $('Webhook').item.json.body.message }}",
+        "documents": "={{ $json.map(item => item.content) }}",
+        "limit": 3
+      },
+      "type": "n8n-nodes-base.cohere",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        150
+      ],
+      "id": "cohere-rerank",
+      "name": "Cohere - Rerank",
+      "credentials": {
+        "cohereApi": {
+          "id": "cohere-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "command-r",
+        "message": "={{ $('Webhook').item.json.body.message }}",
+        "systemInstruction": "Eres un chatbot especializado en derecho mexicano (marco jurídico de México) integrado en el sitio web de la abogada mariló. Tu objetivo es responder consultas legales basándote ÚNICAMENTE en el corpus provisto.\n\nSigue estas reglas estrictas:\n1) Limita las respuestas estrictamente a los temas cubiertos por el corpus cargado (Constitución Arts. 1, 4, 14, 16, 123; Código Civil Federal Contratos; Ley Federal del Trabajo Terminación de relaciones).\n2) Si la pregunta cae fuera de ese alcance o no se puede responder con el corpus provisto, dilo explícitamente en lugar de inventar o usar conocimientos externos.\n3) Basa tu respuesta SOLO en los fragmentos recuperados. No alucines.\n4) Agrega siempre al final de tu respuesta el disclaimer: \"\\n\\n*Esta respuesta es informativa y no constituye asesoría jurídica formal.*\"",
+        "documents": "={{ $('Cohere - Rerank').item.json.results.map(r => ({ text: r.document.text })) }}"
+      },
+      "type": "n8n-nodes-base.cohere",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        150
+      ],
+      "id": "cohere-chat",
+      "name": "Cohere - Chat",
+      "credentials": {
+        "cohereApi": {
+          "id": "cohere-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "chat_sessions",
+          "mode": "list",
+          "cachedResultName": "chat_sessions"
+        },
+        "fields": {
+          "question_count": "={{ $('If - Q Count < 3').item.json.question_count + 1 }}",
+          "last_message_at": "={{ new Date().toISOString() }}"
+        },
+        "options": {
+          "filter": "session_id=eq.{{ $('Webhook').item.json.body.session_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        150
+      ],
+      "id": "supabase-update-count",
+      "name": "Supabase - Increment Count",
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-credentials-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "responseCode": 200,
+        "responseBody": "={\n  \"response\": \"{{ $('Cohere - Chat').item.json.text }}\",\n  \"question_count\": {{ $('If - Q Count < 3').item.json.question_count + 1 }},\n  \"remaining\": {{ 2 - $('If - Q Count < 3').item.json.question_count }},\n  \"redirect_to_whatsapp\": false\n}"
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        2440,
+        150
+      ],
+      "id": "webhook-response-success",
+      "name": "Webhook Response - Answer"
+    },
+    {
+      "parameters": {
+        "responseCode": 200,
+        "responseBody": "{\n  \"response\": \"Has alcanzado el límite de 3 consultas gratuitas de demostración. Para continuar con una asesoría personal de pago por videollamada, puedes contactarnos directamente por WhatsApp.\",\n  \"question_count\": {{ $json.question_count }},\n  \"remaining\": 0,\n  \"redirect_to_whatsapp\": true,\n  \"whatsapp_url\": \"https://wa.me/5217771035134?text=Hola,%20solicito%20asesor%C3%ADa%20legal%20personalizada\"\n}"
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1400,
+        380
+      ],
+      "id": "webhook-response-redirect",
+      "name": "Webhook Response - Redirect"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Verify Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Token": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response - 401",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase - Get Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Get Session": {
+      "main": [
+        [
+          {
+            "node": "If - Session Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - Session Exists": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Create Session",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If - Q Count < 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Create Session": {
+      "main": [
+        [
+          {
+            "node": "If - Q Count < 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If - Q Count < 3": {
+      "main": [
+        [
+          {
+            "node": "Cohere - Embed Query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Webhook Response - Redirect",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cohere - Embed Query": {
+      "main": [
+        [
+          {
+            "node": "Supabase - RPC match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - RPC match": {
+      "main": [
+        [
+          {
+            "node": "Cohere - Rerank",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cohere - Rerank": {
+      "main": [
+        [
+          {
+            "node": "Cohere - Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cohere - Chat": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Increment Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Increment Count": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response - Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
