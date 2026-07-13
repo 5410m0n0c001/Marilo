@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Financial Line Chart (With highlighted Break-even Node at Mes 6)
-  // Initial Capital: $73,000. Operating Cost: $21,600 ($10k Content/Mantenimiento + $5k Podcast + $5k Ads + $800 Tech + $800 AI)
+  // Initial Capital: $73,000. Operating Cost: $21,600 ($10k Marketing + $5k Publicidad + $5k Podcast + $1,600 Licencias)
   function initProjectionChart() {
     destroyProjectionChart();
     const ctx = document.getElementById('projectionChart')?.getContext('2d');
