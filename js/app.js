@@ -195,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const maxQuestions = 3;
 
   const responses = [
-    "**[Asistente Legal mariló]:** Con respecto a su duda civil sobre arrendamiento en el Estado de Morelos, el Código Civil local establece en su artículo 1860 que el arrendador está obligado a entregar la finca en buen estado. ¿Tiene alguna duda específica sobre el contrato de arrendamiento o las reparaciones?",
-    "**[Asistente Legal mariló]:** Sobre su duda laboral de despido injustificado, la Ley Federal del Trabajo en su artículo 48 le otorga el derecho a reclamar la indemnización constitucional (3 meses de salario) o la reinstalación. ¿Desea saber cómo se calcula el finiquito o prefiere analizar las causales de rescisión?",
-    "**[Asistente Legal mariló]:** Analizando su tercera consulta legal sobre la validez de contratos mercantiles... [Procesando jurisprudencia aplicable en CDMX y Morelos]"
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Con respecto a su duda sobre arrendamiento en el Estado de Morelos, el Código Civil local establece en su artículo 1860 que el arrendador está obligado a entregar el inmueble en buen estado. ¿Tiene alguna duda sobre el contrato de arrendamiento o las reparaciones?",
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Sobre su duda en materia laboral de despido injustificado, la Ley Federal del Trabajo en su artículo 48 otorga el derecho a reclamar la indemnización constitucional (3 meses de salario) o la reinstalación. ¿Desea saber cómo se calcula el finiquito o prefiere analizar las causales de rescisión?",
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Analizando su tercera consulta informativa sobre la validez de contratos mercantiles... [Procesando base documental de CDMX y Morelos]"
   ];
 
   if (chatInput && chatSendBtn && chatMessages) {
@@ -303,10 +303,10 @@ document.addEventListener('DOMContentLoaded', () => {
       chatCredits.textContent = maxQuestions;
       chatMessages.innerHTML = `
         <div class="chat-bubble bot-msg">
-          <strong>[Asistente Legal mariló]:</strong> Bienvenido al portal de asesoría legal automatizada. He sido programado bajo la jurisprudencia del Estado de Morelos y la CDMX.
+          <strong>[Asistente Informativo mariló]:</strong> Bienvenido al asistente informativo. La información aquí provista tiene fines orientativos/informativos y no constituye asesoría jurídica personalizada.
         </div>
         <div class="chat-bubble bot-msg">
-          Tienes hasta <strong>3 consultas libres</strong> antes de pasar a la derivación de pago. ¿En qué duda legal puedo ayudarte hoy?
+          Tienes hasta <strong>3 consultas libres</strong> de demostración antes de pasar a la derivación de contacto. ¿En qué tema informativo puedo ayudarte hoy?
         </div>
       `;
       chatInput.disabled = false;
@@ -428,16 +428,18 @@ document.addEventListener('DOMContentLoaded', () => {
       type: 'doughnut',
       data: {
         labels: [
-          'Branding Personal (Fase 1)',
-          'Setup Ecosistema, Google, Spotify & HubSpot (Fase 2)',
-          'Desarrollo Web WordPress Divi & Bot n8n (Fase 3)'
+          'Proyecto A: Branding Personal',
+          'Proyecto B: Desarrollo Sitio Web WordPress',
+          'Proyecto C: Setup Digital y CRM HubSpot',
+          'Proyecto D: Automatización e IA (Asistente n8n)'
         ],
         datasets: [{
-          data: [15000, 13000, 25000],
+          data: [15000, 25000, 13000, 20000],
           backgroundColor: [
             'rgba(181, 220, 23, 0.85)',  
+            'rgba(59, 130, 246, 0.75)',   
             'rgba(35, 31, 32, 0.8)',     
-            'rgba(59, 130, 246, 0.75)'   
+            'rgba(156, 163, 175, 0.8)'   
           ],
           borderColor: '#ffffff',
           borderWidth: 2
@@ -480,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Financial Line Chart (With highlighted Break-even Node at Mes 6)
-  // Initial Capital: $53,000. Operating Cost: $21,600 ($10k Content/Mantenimiento + $5k Podcast + $5k Ads + $800 Tech + $800 AI)
+  // Initial Capital: $73,000. Operating Cost: $21,600 ($10k Content/Mantenimiento + $5k Podcast + $5k Ads + $800 Tech + $800 AI)
   function initProjectionChart() {
     destroyProjectionChart();
     const ctx = document.getElementById('projectionChart')?.getContext('2d');
@@ -488,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const labels = ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'];
     const volumes = [20, 35, 55, 80, 110, 145, 175, 205, 230, 250, 265, 280];
-    const initialInvestment = 53000;
+    const initialInvestment = 73000;
     const monthlyCost = 21600;
     const avgPrice = 500;
 

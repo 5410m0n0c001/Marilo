@@ -5,3 +5,12 @@ __pycache__/
 *.pyo
 *.pyd
 .DS_Store
+n8n_canvas_clipboard.json
+n8n_workflow_copied_from_editor.json
+scripts/
+assets/images/n8n_*
+assets/images/supabase_*
+assets/images/credentials_check.png
+assets/images/github_pages_*
+assets/images/node_*
+assets/images/webhook_*

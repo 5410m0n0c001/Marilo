@@ -139,9 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const maxQuestions = 3;
 
   const responses = [
-    "**[Asistente Legal mariló]:** Con respecto a su duda civil sobre arrendamiento en el Estado de Morelos, el Código Civil local establece en su artículo 1860 que el arrendador está obligado a entregar la finca en buen estado. ¿Tiene alguna duda específica sobre el contrato de arrendamiento o las reparaciones?",
-    "**[Asistente Legal mariló]:** Sobre su duda laboral de despido injustificado, la Ley Federal del Trabajo en su artículo 48 le otorga el derecho a reclamar la indemnización constitucional (3 meses de salario) o la reinstalación. ¿Desea saber cómo se calcula el finiquito o prefiere analizar las causales de rescisión?",
-    "**[Asistente Legal mariló]:** Analizando su tercera consulta legal sobre la validez de contratos mercantiles... [Procesando jurisprudencia aplicable en CDMX y Morelos]"
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Con respecto a su duda sobre arrendamiento en el Estado de Morelos, el Código Civil local establece en su artículo 1860 que el arrendador está obligado a entregar el inmueble en buen estado. ¿Tiene alguna duda sobre el contrato de arrendamiento o las reparaciones?",
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Sobre su duda en materia laboral de despido injustificado, la Ley Federal del Trabajo en su artículo 48 otorga el derecho a reclamar la indemnización constitucional (3 meses de salario) o la reinstalación. ¿Desea saber cómo se calcula el finiquito o prefiere analizar las causales de rescisión?",
+    "**[Asistente Informativo mariló]:** *[Nota: Esta respuesta es informativa y no constituye asesoría jurídica personalizada]* Analizando su tercera consulta informativa sobre la validez de contratos mercantiles... [Procesando base documental de CDMX y Morelos]"
   ];
 
   if (chatInput && chatSendBtn && chatMessages) {
@@ -222,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
       chatCredits.textContent = maxQuestions;
       chatMessages.innerHTML = `
         <div class="chat-bubble bot-msg">
-          <strong>[Asistente Legal mariló]:</strong> Bienvenido al portal de asesoría legal automatizada. He sido programado bajo la jurisprudencia del Estado de Morelos y la CDMX.
+          <strong>[Asistente Informativo mariló]:</strong> Bienvenido al asistente informativo. La información aquí provista tiene fines orientativos/informativos y no constituye asesoría jurídica personalizada.
         </div>
         <div class="chat-bubble bot-msg">
-          Tienes hasta <strong>3 consultas libres</strong> antes de pasar a la derivación de pago. ¿En qué duda legal puedo ayudarte hoy?
+          Tienes hasta <strong>3 consultas libres</strong> de demostración antes de pasar a la derivación de contacto. ¿En qué tema informativo puedo ayudarte hoy?
         </div>
       `;
       chatInput.disabled = false;

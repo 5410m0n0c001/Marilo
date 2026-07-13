@@ -37,7 +37,7 @@ function initSession() {
 function showWelcomeMessage() {
   const messageFeed = document.getElementById('chat-messages-feed');
   if (messageFeed && messageFeed.children.length === 0) {
-    appendMessage('bot', '¡Hola! Soy el asistente legal inteligente de la abogada mariló.\n\nPuedo ayudarte con dudas sobre los siguientes temas:\n- Derechos Humanos y Garantías en México (Constitución).\n- Contratos Civiles (Disposiciones Generales del Código Civil).\n- Terminación de la Relación de Trabajo (Ley Federal del Trabajo).\n\n*¿En qué te puedo asesorar hoy?*');
+    appendMessage('bot', '¡Hola! Soy el asistente informativo inteligente de la abogada mariló.\n\nLa información proporcionada tiene fines informativos y no constituye asesoría jurídica personalizada.\n\nPuedo ayudarte con dudas generales sobre los siguientes temas:\n- Derechos Humanos y Garantías en México (Constitución).\n- Contratos Civiles (Disposiciones Generales del Código Civil).\n- Terminación de la Relación de Trabajo (Ley Federal del Trabajo).\n\n*¿En qué tema te puedo informar hoy?*');
   }
 }
 
@@ -176,7 +176,7 @@ async function sendMessage() {
       if (response.status === 401) {
         appendMessage('system', 'Error: No autorizado. Verifica el X-Chat-Token.');
       } else {
-        appendMessage('system', 'Hubo un error de conexión con el asistente legal.');
+        appendMessage('system', 'Hubo un error de conexión con el asistente informativo.');
       }
       return;
     }
@@ -423,7 +423,7 @@ async function sendEmbeddedMessage() {
       if (response.status === 401) {
         appendEmbeddedMessage('system', 'Error: No autorizado. Verifica el X-Chat-Token.');
       } else {
-        appendEmbeddedMessage('system', 'Hubo un error de conexión con el asistente legal.');
+        appendEmbeddedMessage('system', 'Hubo un error de conexión con el asistente informativo.');
       }
       return;
     }

@@ -55,6 +55,7 @@
     {
       "parameters": {
         "responseCode": 401,
+        "respondWith": "json",
         "responseBody": "{\n  \"error\": \"Unauthorized: Invalid or missing X-Chat-Token header\"\n}"
       },
       "type": "n8n-nodes-base.respondToWebhook",
@@ -68,23 +69,23 @@
     },
     {
       "parameters": {
-        "operation": "get",
-        "table": {
-          "__rl": true,
-          "value": "chat_sessions",
-          "mode": "list",
-          "cachedResultName": "chat_sessions"
+        "method": "GET",
+        "url": "https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/chat_sessions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "session_id",
+              "value": "=eq.{{ $('Webhook').first().json.body.session_id }}"
+            }
+          ]
         },
-        "columns": [
-          "session_id",
-          "question_count"
-        ],
-        "options": {
-          "filter": "session_id=eq.{{ $json.body.session_id }}"
-        }
+        "options": {}
       },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
         460,
         240
@@ -93,9 +94,27 @@
       "name": "Supabase - Get Session",
       "credentials": {
         "supabaseApi": {
-          "id": "supabase-credentials-id"
+          "id": "UTFbESgKlUq4uy1e"
         }
+      },
+      "alwaysOutputData": true,
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst items = $input.all();\nlet exists = false;\nlet question_count = 0;\nlet session_id = \"\";\n\nif (items.length > 0 && items[0].json && items[0].json.session_id) {\n  exists = true;\n  question_count = items[0].json.question_count;\n  session_id = items[0].json.session_id;\n} else {\n  // Use session_id from initial webhook body wrapper\n  session_id = $('Webhook').first().json.body.session_id;\n}\n\nreturn [{\n  json: {\n    exists: exists,\n    session_id: session_id,\n    question_count: question_count\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        240
+      ],
+      "id": "get-or-create-session",
+      "name": "Get or Create Session"
     },
     {
       "parameters": {
@@ -103,16 +122,16 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "loose"
           },
           "conditions": [
             {
               "id": "session-exists",
-              "leftValue": "={{ $json.session_id }}",
+              "leftValue": "={{ $json.exists }}",
               "operator": {
-                "type": "string",
-                "operation": "isNotEmpty",
-                "name": "filter.operator.isNotEmpty"
+                "type": "boolean",
+                "operation": "true",
+                "name": "filter.operator.true"
               }
             }
           ],
@@ -123,7 +142,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        680,
+        900,
         240
       ],
       "id": "if-session-exists-node",
@@ -131,30 +150,40 @@
     },
     {
       "parameters": {
-        "operation": "create",
-        "table": {
-          "__rl": true,
-          "value": "chat_sessions",
-          "mode": "list",
-          "cachedResultName": "chat_sessions"
+        "method": "POST",
+        "url": "https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/chat_sessions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
         },
-        "fields": {
-          "session_id": "={{ $('Webhook').item.json.body.session_id }}",
-          "question_count": 0
-        }
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session_id\": \"{{ $json.session_id }}\",\n  \"question_count\": 0\n}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
-        880,
+        1120,
         100
       ],
       "id": "supabase-insert-session",
       "name": "Supabase - Create Session",
       "credentials": {
         "supabaseApi": {
-          "id": "supabase-credentials-id"
+          "id": "UTFbESgKlUq4uy1e"
         }
+      },
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
@@ -163,16 +192,16 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "loose"
           },
           "conditions": [
             {
               "id": "check-count",
-              "leftValue": "={{ $json.question_count }}",
+              "leftValue": "={{ Number($json.question_count) }}",
               "rightValue": 3,
               "operator": {
                 "type": "number",
-                "operation": "lessThan",
+                "operation": "lt",
                 "name": "filter.operator.lessThan"
               }
             }
@@ -184,7 +213,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1120,
+        1340,
         240
       ],
       "id": "if-count-less-than-3",
@@ -192,126 +221,195 @@
     },
     {
       "parameters": {
-        "model": "embed-multilingual-v3.0",
-        "text": "={{ $('Webhook').item.json.body.message }}",
-        "inputType": "search_query"
+        "method": "POST",
+        "url": "https://api.cohere.com/v1/embed",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "cohereApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"embed-multilingual-v3.0\",\n  \"texts\": [ \"{{ $('Webhook').first().json.body.message.replace(/\\n/g, ' ').replace(/\"/g, '\\\\\"') }}\" ],\n  \"input_type\": \"search_query\"\n}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.cohere",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
-        1340,
+        1560,
         150
       ],
       "id": "cohere-embed",
       "name": "Cohere - Embed Query",
       "credentials": {
         "cohereApi": {
-          "id": "cohere-credentials-id"
+          "id": "iMK4nOrQ7XXtruZu"
         }
+      },
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
       "parameters": {
-        "operation": "rpc",
-        "functionName": "match_legal_chunks",
-        "rpcParameters": "{\n  \"query_embedding\": \"={{ $json.embedding }}\",\n  \"match_threshold\": 0.5,\n  \"match_count\": 10\n}"
+        "method": "POST",
+        "url": "https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/rpc/match_legal_chunks",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query_embedding\": {{ JSON.stringify($json.embeddings[0]) }},\n  \"match_threshold\": 0.5,\n  \"match_count\": 10\n}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
-        1560,
+        1780,
         150
       ],
       "id": "supabase-rpc-match",
       "name": "Supabase - RPC match",
       "credentials": {
         "supabaseApi": {
-          "id": "supabase-credentials-id"
+          "id": "UTFbESgKlUq4uy1e"
         }
+      },
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
       "parameters": {
-        "model": "rerank-v3.5",
-        "query": "={{ $('Webhook').item.json.body.message }}",
-        "documents": "={{ $json.map(item => item.content) }}",
-        "limit": 3
+        "method": "POST",
+        "url": "https://api.cohere.com/v1/rerank",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "cohereApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"rerank-v3.5\",\n  \"query\": \"{{ $('Webhook').first().json.body.message.replace(/\\n/g, ' ').replace(/\"/g, '\\\\\"') }}\",\n  \"documents\": {{ JSON.stringify($('Supabase - RPC match').all().map(item => item.json.content)) }},\n  \"top_n\": 3,\n  \"return_documents\": true\n}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.cohere",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
-        1780,
+        2000,
         150
       ],
       "id": "cohere-rerank",
       "name": "Cohere - Rerank",
       "credentials": {
         "cohereApi": {
-          "id": "cohere-credentials-id"
+          "id": "iMK4nOrQ7XXtruZu"
         }
+      },
+      "settings": {
+        "executeOnce": true,
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
       "parameters": {
-        "model": "command-r",
-        "message": "={{ $('Webhook').item.json.body.message }}",
-        "systemInstruction": "Eres un chatbot especializado en derecho mexicano (marco jurídico de México) integrado en el sitio web de la abogada mariló. Tu objetivo es responder consultas legales basándote ÚNICAMENTE en el corpus provisto.\n\nSigue estas reglas estrictas:\n1) Limita las respuestas estrictamente a los temas cubiertos por el corpus cargado (Constitución Arts. 1, 4, 14, 16, 123; Código Civil Federal Contratos; Ley Federal del Trabajo Terminación de relaciones).\n2) Si la pregunta cae fuera de ese alcance o no se puede responder con el corpus provisto, dilo explícitamente en lugar de inventar o usar conocimientos externos.\n3) Basa tu respuesta SOLO en los fragmentos recuperados. No alucines.\n4) Agrega siempre al final de tu respuesta el disclaimer: \"\\n\\n*Esta respuesta es informativa y no constituye asesoría jurídica formal.*\"",
-        "documents": "={{ $('Cohere - Rerank').item.json.results.map(r => ({ text: r.document.text })) }}"
+        "jsCode": "return [{ json: { documents: $('Cohere - Rerank').first().json.results.map(r => ({ text: r.document.text })) } }];"
       },
-      "type": "n8n-nodes-base.cohere",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        2000,
+        2170,
+        30
+      ],
+      "id": "format-docs-node",
+      "name": "Format Docs"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cohere.com/v1/chat",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "cohereApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"command-a-03-2025\",\n  \"message\": \"{{ $('Webhook').first().json.body.message.replace(/\\n/g, ' ').replace(/\"/g, '\\\\\"') }}\",\n  \"preamble\": \"Eres un asistente informativo especializado en derecho mexicano (marco jurídico de México) integrado en el sitio web de la abogada mariló. Tu objetivo es proporcionar información orientativa general basándote ÚNICAMENTE en el corpus provisto. Recuerda que no brindas asesoría jurídica personalizada.\\n\\nSigue estas reglas estrictas:\\n1) Limita tus respuestas a información general sobre los temas cubiertos por el corpus cargado (Constitución Arts. 1, 4, 14, 16, 123; Código Civil Federal Contratos; Ley Federal del Trabajo Terminación de relaciones).\\n2) Si la pregunta requiere asesoría personalizada o cae fuera de ese alcance, dilo explícitamente e invita a agendar una consulta.\\n3) Basa tu respuesta SOLO en los fragmentos recuperados. No alucines.\\n4) Agrega siempre al final de tu respuesta el disclaimer: \\\"\\\\n\\\\n*Esta información es de carácter general y orientativo, y no constituye asesoría jurídica personalizada.*\\\"\",\n  \"documents\": {{ JSON.stringify($json.documents) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2320,
         150
       ],
       "id": "cohere-chat",
       "name": "Cohere - Chat",
       "credentials": {
         "cohereApi": {
-          "id": "cohere-credentials-id"
+          "id": "iMK4nOrQ7XXtruZu"
         }
+      },
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
       "parameters": {
-        "operation": "update",
-        "table": {
-          "__rl": true,
-          "value": "chat_sessions",
-          "mode": "list",
-          "cachedResultName": "chat_sessions"
+        "method": "PATCH",
+        "url": "https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/chat_sessions?session_id=eq.{{ $('Webhook').first().json.body.session_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
         },
-        "fields": {
-          "question_count": "={{ $('If - Q Count < 3').item.json.question_count + 1 }}",
-          "last_message_at": "={{ new Date().toISOString() }}"
-        },
-        "options": {
-          "filter": "session_id=eq.{{ $('Webhook').item.json.body.session_id }}"
-        }
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"question_count\": {{ ($('If - Q Count < 3').first().json.question_count ?? 0) + 1 }},\n  \"last_message_at\": \"{{ new Date().toISOString() }}\"\n}",
+        "options": {}
       },
-      "type": "n8n-nodes-base.supabase",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
       "position": [
-        2220,
+        2540,
         150
       ],
       "id": "supabase-update-count",
       "name": "Supabase - Increment Count",
       "credentials": {
         "supabaseApi": {
-          "id": "supabase-credentials-id"
+          "id": "UTFbESgKlUq4uy1e"
         }
+      },
+      "alwaysOutputData": true,
+      "settings": {
+        "errorRetryCount": 3,
+        "errorRetryInterval": 1000
       }
     },
     {
       "parameters": {
-        "responseCode": 200,
-        "responseBody": "={\n  \"response\": \"{{ $('Cohere - Chat').item.json.text }}\",\n  \"question_count\": {{ $('If - Q Count < 3').item.json.question_count + 1 }},\n  \"remaining\": {{ 2 - $('If - Q Count < 3').item.json.question_count }},\n  \"redirect_to_whatsapp\": false\n}"
+        "jsCode": "\nconst responseText = $('Cohere - Chat').first().json.text;\nconst qCount = $('If - Q Count < 3').first().json.question_count || 0;\n\nreturn [{\n  json: {\n    response: responseText,\n    question_count: qCount + 1,\n    remaining: 2 - qCount,\n    redirect_to_whatsapp: false\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2760,
+        150
+      ],
+      "id": "prepare-success-response",
+      "name": "Prepare Success Response"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        2440,
+        2980,
         150
       ],
       "id": "webhook-response-success",
@@ -319,13 +417,26 @@
     },
     {
       "parameters": {
-        "responseCode": 200,
-        "responseBody": "{\n  \"response\": \"Has alcanzado el límite de 3 consultas gratuitas de demostración. Para continuar con una asesoría personal de pago por videollamada, puedes contactarnos directamente por WhatsApp.\",\n  \"question_count\": {{ $json.question_count }},\n  \"remaining\": 0,\n  \"redirect_to_whatsapp\": true,\n  \"whatsapp_url\": \"https://wa.me/5217771035134?text=Hola,%20solicito%20asesor%C3%ADa%20legal%20personalizada\"\n}"
+        "jsCode": "\nconst qCount = $json.question_count || 0;\n\nreturn [{\n  json: {\n    response: \"Has alcanzado el límite de 3 consultas gratuitas de demostración. Para continuar con una asesoría personal de pago por videollamada, puedes contactarnos directamente por WhatsApp.\",\n    question_count: qCount,\n    remaining: 0,\n    redirect_to_whatsapp: true,\n    whatsapp_url: \"https://wa.me/5217771035134?text=Hola,%20solicito%20asesor%C3%ADa%20legal%20personalizada\"\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1620,
+        380
+      ],
+      "id": "prepare-redirect-response",
+      "name": "Prepare Redirect Response"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        1400,
+        1840,
         380
       ],
       "id": "webhook-response-redirect",
@@ -366,6 +477,17 @@
       "main": [
         [
           {
+            "node": "Get or Create Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get or Create Session": {
+      "main": [
+        [
+          {
             "node": "If - Session Exists",
             "type": "main",
             "index": 0
@@ -377,14 +499,14 @@
       "main": [
         [
           {
-            "node": "Supabase - Create Session",
+            "node": "If - Q Count < 3",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "If - Q Count < 3",
+            "node": "Supabase - Create Session",
             "type": "main",
             "index": 0
           }
@@ -411,6 +533,17 @@
             "index": 0
           }
         ],
+        [
+          {
+            "node": "Prepare Redirect Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Redirect Response": {
+      "main": [
         [
           {
             "node": "Webhook Response - Redirect",
@@ -446,6 +579,17 @@
       "main": [
         [
           {
+            "node": "Format Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Docs": {
+      "main": [
+        [
+          {
             "node": "Cohere - Chat",
             "type": "main",
             "index": 0
@@ -468,12 +612,26 @@
       "main": [
         [
           {
+            "node": "Prepare Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Success Response": {
+      "main": [
+        [
+          {
             "node": "Webhook Response - Answer",
             "type": "main",
             "index": 0
           }
         ]
       ]
+    },
+    "Webhook Response - Answer": {
+      "main": []
     }
   }
 }
