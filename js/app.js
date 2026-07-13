@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Chart.defaults.responsive = true;
   Chart.defaults.maintainAspectRatio = false;
 
-  // 1. Budget Doughnut Chart ($40k Budget Splits)
+  // 1. Budget Doughnut Chart ($53k Budget Splits)
   function initBudgetChart() {
     destroyBudgetChart();
     const ctx = document.getElementById('budgetChart')?.getContext('2d');
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Desarrollo Web WordPress Divi & Bot n8n (Fase 3)'
         ],
         datasets: [{
-          data: [12000, 10000, 18000],
+          data: [15000, 13000, 25000],
           backgroundColor: [
             'rgba(181, 220, 23, 0.85)',  
             'rgba(35, 31, 32, 0.8)',     
@@ -479,17 +479,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 2. Financial Line Chart (With highlighted Break-even Node at Mes 3)
-  // Initial Capital: $40,000. Operating Cost: $14,200 ($10k Content + $3k Ads + $1.2k Tech)
+  // 2. Financial Line Chart (With highlighted Break-even Node at Mes 6)
+  // Initial Capital: $53,000. Operating Cost: $21,600 ($10k Content/Mantenimiento + $5k Podcast + $5k Ads + $800 Tech + $800 AI)
   function initProjectionChart() {
     destroyProjectionChart();
     const ctx = document.getElementById('projectionChart')?.getContext('2d');
     if (!ctx) return;
 
     const labels = ['Mes 1', 'Mes 2', 'Mes 3', 'Mes 4', 'Mes 5', 'Mes 6', 'Mes 7', 'Mes 8', 'Mes 9', 'Mes 10', 'Mes 11', 'Mes 12'];
-    const volumes = [10, 18, 28, 42, 58, 75, 90, 105, 120, 135, 145, 155];
-    const initialInvestment = 40000;
-    const monthlyCost = 14200;
+    const volumes = [20, 35, 55, 80, 110, 145, 175, 205, 230, 250, 265, 280];
+    const initialInvestment = 53000;
+    const monthlyCost = 21600;
     const avgPrice = 500;
 
     let cumulativeInvestment = [initialInvestment + monthlyCost];
@@ -536,10 +536,10 @@ document.addEventListener('DOMContentLoaded', () => {
             fill: true,
             tension: 0.3,
             borderWidth: 3,
-            pointRadius: [3, 3, 9, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-            pointHoverRadius: [5, 5, 11, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+            pointRadius: [3, 3, 3, 3, 3, 9, 3, 3, 3, 3, 3, 3],
+            pointHoverRadius: [5, 5, 5, 5, 5, 11, 5, 5, 5, 5, 5, 5],
             pointBackgroundColor: [
-              '#231f20', '#231f20', '#b5dc17', '#231f20', '#231f20', '#231f20',
+              '#231f20', '#231f20', '#231f20', '#231f20', '#231f20', '#b5dc17',
               '#231f20', '#231f20', '#231f20', '#231f20', '#231f20', '#231f20'
             ],
             pointBorderColor: '#ffffff',
@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
             callbacks: {
               label: function(context) {
                 let value = context.raw;
-                if (context.dataIndex === 2 && context.datasetIndex === 2) {
+                if (context.dataIndex === 5 && context.datasetIndex === 2) {
                   return ` Break-even Point (Punto de Equilibrio): $${value.toLocaleString()} MXN`;
                 }
                 return ` ${context.dataset.label}: $${value.toLocaleString()} MXN`;
