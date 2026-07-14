@@ -30,7 +30,7 @@
           "conditions": [
             {
               "id": "check-token",
-              "leftValue": "={{ $json.body.token }}",
+              "leftValue": "={{ $('Webhook').first().json.body.token }}",
               "rightValue": "your_custom_secret_webhook_token_here",
               "operator": {
                 "type": "string",
@@ -214,7 +214,7 @@
       "parameters": {
         "operation": "rpc",
         "functionName": "match_legal_chunks",
-        "rpcParameters": "{\n  \"query_embedding\": \"={{ $json.embedding }}\",\n  \"match_threshold\": 0.5,\n  \"match_count\": 10\n}"
+        "rpcParameters": "{\n  \"query_embedding\": \"={{ $json.embedding }}\",\n  \"match_threshold\": 0.0,\n  \"match_count\": 10\n}"
       },
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
@@ -348,14 +348,14 @@
       "main": [
         [
           {
-            "node": "Webhook Response - 401",
+            "node": "Supabase - Get Session",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Supabase - Get Session",
+            "node": "Webhook Response - 401",
             "type": "main",
             "index": 0
           }

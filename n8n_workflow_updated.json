@@ -30,7 +30,7 @@
           "conditions": [
             {
               "id": "check-token",
-              "leftValue": "={{ $json.body.token }}",
+              "leftValue": "={{ $('Webhook').first().json.body.token }}",
               "rightValue": "AbogadaMarilo2026!",
               "operator": {
                 "type": "string",
@@ -256,7 +256,7 @@
         "nodeCredentialType": "supabaseApi",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"query_embedding\": {{ JSON.stringify($json.embeddings[0]) }},\n  \"match_threshold\": 0.5,\n  \"match_count\": 10\n}",
+        "jsonBody": "={\n  \"query_embedding\": {{ JSON.stringify($json.embeddings[0]) }},\n  \"match_threshold\": 0.0,\n  \"match_count\": 10\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -352,7 +352,7 @@
     {
       "parameters": {
         "method": "PATCH",
-        "url": "https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/chat_sessions?session_id=eq.{{ $('Webhook').first().json.body.session_id }}",
+        "url": "={{ 'https://btkgrkkxfdicsyrknabk.supabase.co/rest/v1/chat_sessions?session_id=eq.' + $('Webhook').first().json.body.session_id }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "supabaseApi",
         "sendHeaders": true,
@@ -459,14 +459,14 @@
       "main": [
         [
           {
-            "node": "Webhook Response - 401",
+            "node": "Supabase - Get Session",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Supabase - Get Session",
+            "node": "Webhook Response - 401",
             "type": "main",
             "index": 0
           }
