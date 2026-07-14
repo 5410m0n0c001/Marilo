@@ -103,6 +103,80 @@
       </div>
     </div>
 
+    <!-- SECCIÓN DE ASISTENTE DE IA DE ALTAS PRESTACIONES -->
+    <section class="section-wrapper scroll-reveal fade-up" id="chatbot-main-section" style="margin-bottom: var(--space-lg); background: rgba(18, 24, 36, 0.98); border: 1.5px solid rgba(181, 220, 23, 0.25); border-radius: var(--radius-lg); box-shadow: var(--shadow-premium); overflow: hidden; padding: 0;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0;">
+        
+        <!-- Left Side: Technical Info and 5-Year-Old Explanation -->
+        <div style="padding: 30px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1.5px solid rgba(181, 220, 23, 0.15); color: #f3f4f6;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px;">
+              <span style="background: rgba(181, 220, 23, 0.1); color: var(--color-lime); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(181, 220, 23, 0.2); letter-spacing: 0.5px;">🤖 Canal en Vivo Conectado</span>
+            </div>
+            <h2 style="font-family: var(--font-display); color: #ffffff; font-size: 1.6rem; margin-bottom: 15px; border-bottom: 1.5px solid rgba(255, 255, 255, 0.08); padding-bottom: 10px; margin-top: 0;">Asistente Informativo Inteligente</h2>
+            
+            <p style="font-size: 0.85rem; color: #9ca3af; line-height: 1.6; margin-bottom: 20px;">
+              Te presentamos una **demo interactiva de nuestro agente de IA legal** conectado a la base de datos de la abogada mariló. Esta prueba piloto estará activa por **únicamente 10 días** como demostración de velocidad, consulta y derivación automática.
+            </p>
+            
+            <!-- 5-year-old child explanation -->
+            <div style="background: rgba(31, 41, 61, 0.4); border-radius: var(--radius-sm); padding: 20px; border-left: 3.5px solid var(--color-lime); margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <h4 style="color: #ffffff; font-size: 0.9rem; margin: 0 0 10px 0; font-weight: 700; font-family: var(--font-display);">🧩 ¿Cómo funciona? (Explicado fácil)</h4>
+              <p style="font-size: 0.8rem; color: #d1d5db; line-height: 1.55; margin: 0;">
+                Este robot tiene dos partes trabajando juntas:
+                <br><strong style="color: var(--color-lime);">1. La Biblioteca (RAG):</strong> Es una base de datos privada con las leyes mexicanas. Cuando le preguntas algo, el robot corre a la biblioteca, busca y saca las páginas con la información exacta.
+                <br><strong style="color: var(--color-lime);">2. El Cerebro (IA):</strong> Lee esas páginas de la biblioteca y te las explica de forma amigable y sencilla para que cualquier persona lo entienda.
+              </p>
+            </div>
+          </div>
+          
+          <div style="font-size: 0.78rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 15px;">
+            ⚡ <strong>Velocidad y Presupuesto:</strong>
+            <br>Esta prueba piloto utiliza un modelo de inteligencia artificial gratuito y de código abierto. Dependiendo del **modelo de IA que elijas y el presupuesto que le quieras destinar**, la velocidad de respuesta, el tamaño de la ventana de texto y la precisión pueden escalarse exponencialmente (como pasar de un coche a un cohete espacial).
+          </div>
+        </div>
+
+        <!-- Right Side: Chat Window -->
+        <div style="display: flex; flex-direction: column; background: rgba(10, 15, 25, 0.4); height: 520px;">
+          <!-- Chat Header -->
+          <div style="background: rgba(31, 41, 61, 0.4); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid rgba(181, 220, 23, 0.15);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 8px; height: 8px; background: #25d366; border-radius: 50%; box-shadow: 0 0 8px #25d366;"></div>
+              <span style="font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: #ffffff;">mariló - Asistente IA</span>
+            </div>
+            <div style="font-size: 0.75rem; color: #9ca3af;">Consultas libres: <strong id="chat-counter" style="color: var(--color-lime); font-weight: 700;">3/3</strong></div>
+          </div>
+          
+          <!-- Messages Box -->
+          <div class="chat-messages" id="chat-messages-feed" style="flex-grow: 1; padding: 20px; overflow-y: auto; background: transparent; display: flex; flex-direction: column; gap: 12px; scroll-behavior: smooth;"></div>
+          
+          <!-- Footer / Input Area -->
+          <div class="chat-footer" id="chat-footer-area" style="background: rgba(18, 24, 36, 0.9); padding: 15px 20px; border-top: 1.5px solid rgba(181, 220, 23, 0.15); display: flex; flex-direction: column; gap: 8px;">
+            <div class="chat-input-container" style="display: flex; gap: 8px; align-items: center;">
+              <textarea 
+                id="chat-input-field" 
+                class="chat-input" 
+                placeholder="Escribe tu consulta legal aquí..." 
+                rows="1"
+                style="flex-grow: 1; background: rgba(255, 255, 255, 0.05); color: white; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 15px; resize: none; font-size: 0.85rem; font-family: var(--font-body); outline: none; height: 38px; box-sizing: border-box;"
+              ></textarea>
+              <button id="chat-send-btn" class="chat-send-btn" onclick="sendMessage()" style="background: var(--color-lime); color: var(--color-charcoal); border: none; width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; flex-shrink: 0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+            <div class="chat-meta-bar" style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #6b7280; margin-top: 2px;">
+              <span>Canal de Producción n8n Cloud</span>
+              <span>Modelo Demo Libre</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- SECTION 1: REGISTRO IMPI -->
     <section class="section-wrapper scroll-reveal fade-up" id="impi-section">
       <button class="collapsible-header">
@@ -815,15 +889,14 @@
           </ul>
 
           <!-- Chatbot Simulator Widget Container -->
-          <h3 class="stagger-item slide-left" style="margin-top: var(--space-lg);">Prueba los Chatbots del Proyecto (Simulador vs Canal en Vivo)</h3>
+          <h3 class="stagger-item slide-left" style="margin-top: var(--space-lg);">Simulador Técnico de Comportamiento (Lógica Local de Respaldo)</h3>
           <p class="stagger-item slide-left" style="color: var(--color-text-muted); margin-bottom: var(--space-md);">
-            Compara la versión de demostración de comportamiento local (izquierda) con el canal en vivo conectado directamente a la API de n8n Cloud y la base de datos de producción (derecha):
+            Este simulador recrea de manera local el comportamiento de respuestas rápidas y la lógica de derivación a WhatsApp una vez agotado el límite de créditos:
           </p>
           
-          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 20px; justify-items: center; align-items: start;">
+          <div style="display: flex; justify-content: center; margin-top: 20px; width: 100%;">
             <!-- Column 1: Simulador Local -->
-            <div style="width: 100%; max-width: 460px;">
-              <h4 class="text-center" style="margin-bottom: 10px; color: var(--color-charcoal); font-family: var(--font-display); font-size: 0.95rem;">1. Simulador Interactivo (Comportamiento Local)</h4>
+            <div style="width: 100%; max-width: 500px;">
               <div id="chatWindow" class="stagger-item pop-up" style="position: relative; width: 100%; border: var(--border-thin); border-radius: var(--radius-sm); background: var(--color-white); box-shadow: var(--shadow-premium); overflow: hidden; height: 420px; display: flex; flex-direction: column;">
                 <!-- Chat Header -->
                 <div style="background: var(--color-charcoal); color: white; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-lime);">
@@ -851,41 +924,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Column 2: Chatbot en Vivo (Conexión API n8n) -->
-            <div style="width: 100%; max-width: 460px;">
-              <h4 class="text-center" style="margin-bottom: 10px; color: var(--color-charcoal); font-family: var(--font-display); font-size: 0.95rem;">2. Chatbot en Vivo (Canal de Producción API n8n)</h4>
-              <div id="liveChatWindow" class="stagger-item pop-up" style="position: relative; width: 100%; border: var(--border-thin); border-radius: var(--radius-sm); background: rgba(18, 24, 36, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-premium); overflow: hidden; height: 420px; display: flex; flex-direction: column;">
-                <!-- Chat Header -->
-                <div style="background: rgba(31, 41, 61, 0.6); padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08);">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <div style="width: 10px; height: 10px; background: #25d366; border-radius: 50%;"></div>
-                    <span style="font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: #ffffff;">mariló - Asistente Live</span>
-                  </div>
-                  <div style="font-size: 0.75rem; color: #9ca3af;">Consultas: <strong id="live-chat-counter" style="color: var(--color-lime);">3/3</strong></div>
-                </div>
-                <!-- Chat Messages Box -->
-                <div id="live-chat-messages-feed" style="flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem; background: rgba(10, 15, 25, 0.5); color: #ffffff;">
-                  <div class="chat-msg bot" style="background: rgba(255, 255, 255, 0.05); color: #ffffff; padding: 10px 12px; border-radius: 8px 8px 8px 0; border: 1px solid rgba(255,255,255,0.05); line-height: 1.5; align-self: flex-start; max-width: 85%;">
-                    ¡Hola! Soy el asistente informativo inteligente de la abogada mariló.<br><br>La información proporcionada tiene fines informativos y no constituye asesoría jurídica personalizada.<br><br>Puedo ayudarte con dudas generales sobre los siguientes temas:<br>- Derechos Humanos y Garantías en México (Constitución).<br>- Contratos Civiles (Disposiciones Generales del Código Civil).<br>- Terminación de la Relación de Trabajo (Ley Federal del Trabajo).<br><br><em>¿En qué tema te puedo informar hoy?</em>
-                  </div>
-                </div>
-                <!-- Chat Input Area -->
-                <div id="live-chat-footer-area" style="border-top: 1px solid rgba(255,255,255,0.08); display: flex; background: rgba(18, 24, 36, 0.95); padding: 8px 10px 10px 10px; flex-direction: column; gap: 5px;">
-                  <div style="display: flex; align-items: center; gap: 5px; width: 100%;">
-                    <textarea 
-                      id="live-chat-input-field" 
-                      placeholder="Escribe tu consulta legal aquí..." 
-                      style="border: none; padding: 10px; flex-grow: 1; outline: none; font-family: var(--font-body); font-size: 0.85rem; background: rgba(255, 255, 255, 0.06); color: #ffffff; border-radius: 6px; resize: none; height: 38px; border: 1px solid rgba(255,255,255,0.08);"
-                      rows="1"
-                    ></textarea>
-                    <button id="live-chat-send-btn" style="background: var(--color-lime); border: none; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0; outline: none;">
-                      <span style="color: var(--color-charcoal); font-weight: bold; font-size: 1.1rem; line-height: 1;">→</span>
-                    </button>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #6b7280; margin-top: 2px;">
-                    <span>Conexión de Producción n8n</span>
-                    <span>Límite gratis: 3</span>
                   </div>
                 </div>
               </div>

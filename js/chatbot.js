@@ -205,53 +205,6 @@ async function sendMessage() {
 
 // Build and Inject HTML DOM Elements on window load
 function injectWidget() {
-  // Create chatbot container
-  const chatbotContainer = document.createElement('div');
-  chatbotContainer.id = 'chatbot-widget-container';
-  chatbotContainer.innerHTML = `
-    <!-- Floating Bubble -->
-    <div id="chatbot-bubble" onclick="togglePanel()">💬</div>
-    
-    <!-- Chat Panel -->
-    <div id="chatbot-panel">
-      <!-- Header -->
-      <div class="chat-header">
-        <div class="chat-header-info">
-          <h4 class="chat-header-title">mariló - Asesoría Legal</h4>
-          <span class="chat-header-subtitle">Chatbot Demo Activo</span>
-        </div>
-        <button class="chat-close-btn" onclick="togglePanel()">&times;</button>
-      </div>
-      
-      <!-- Messages Feed -->
-      <div class="chat-messages" id="chat-messages-feed"></div>
-      
-      <!-- Footer -->
-      <div class="chat-footer" id="chat-footer-area">
-        <div class="chat-input-container">
-          <textarea 
-            id="chat-input-field" 
-            class="chat-input" 
-            placeholder="Escribe tu consulta legal aquí..." 
-            rows="1"
-          ></textarea>
-          <button id="chat-send-btn" class="chat-send-btn" onclick="sendMessage()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-        </div>
-        <div class="chat-meta-bar">
-          <span>Demo Derecho Mexicano</span>
-          <span>Consultas libres: <strong id="chat-counter">3/3</strong></span>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(chatbotContainer);
-  
   // Attach event listener for Enter key inside textarea
   const inputField = document.getElementById('chat-input-field');
   if (inputField) {
@@ -262,6 +215,8 @@ function injectWidget() {
       }
     });
   }
+
+  showWelcomeMessage();
 
   // Setup embedded panel in Section VI
   setupEmbeddedPanel();
