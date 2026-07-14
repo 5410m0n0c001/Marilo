@@ -30,7 +30,7 @@
           "conditions": [
             {
               "id": "check-token",
-              "leftValue": "={{ $headers[\"x-chat-token\"] }}",
+              "leftValue": "={{ $json.body.token }}",
               "rightValue": "your_custom_secret_webhook_token_here",
               "operator": {
                 "type": "string",
@@ -55,7 +55,7 @@
     {
       "parameters": {
         "responseCode": 401,
-        "responseBody": "{\n  \"error\": \"Unauthorized: Invalid or missing X-Chat-Token header\"\n}"
+        "responseBody": "{\n  \"error\": \"Unauthorized: Invalid or missing token in body\"\n}"
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,

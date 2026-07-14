@@ -160,12 +160,12 @@ async function sendMessage() {
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-Chat-Token': CHAT_TOKEN
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         session_id: sessionId,
-        message: text
+        message: text,
+        token: CHAT_TOKEN
       })
     });
     
@@ -174,7 +174,7 @@ async function sendMessage() {
     
     if (!response.ok) {
       if (response.status === 401) {
-        appendMessage('system', 'Error: No autorizado. Verifica el X-Chat-Token.');
+        appendMessage('system', 'Error: No autorizado. Verifica el token.');
       } else {
         appendMessage('system', 'Hubo un error de conexión con el asistente informativo.');
       }
@@ -408,12 +408,12 @@ async function sendEmbeddedMessage() {
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'X-Chat-Token': CHAT_TOKEN
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         session_id: sessionId,
-        message: text
+        message: text,
+        token: CHAT_TOKEN
       })
     });
     
@@ -421,7 +421,7 @@ async function sendEmbeddedMessage() {
     
     if (!response.ok) {
       if (response.status === 401) {
-        appendEmbeddedMessage('system', 'Error: No autorizado. Verifica el X-Chat-Token.');
+        appendEmbeddedMessage('system', 'Error: No autorizado. Verifica el token.');
       } else {
         appendEmbeddedMessage('system', 'Hubo un error de conexión con el asistente informativo.');
       }
